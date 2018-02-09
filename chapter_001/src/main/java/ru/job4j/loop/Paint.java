@@ -27,9 +27,6 @@ public class Paint {
     }
 
     private String loopBy(int height, int weight, BiPredicate<Integer, Integer> predict) {
-        if (height <= 0) {
-            return "";
-        }
         StringBuilder screen = new StringBuilder();
         for (int row = 0; row != height; row++) {
             for (int column = 0; column != weight; column++) {
