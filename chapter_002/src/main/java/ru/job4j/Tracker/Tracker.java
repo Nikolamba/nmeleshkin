@@ -1,4 +1,4 @@
-package ru.job4j.Tracker;
+package ru.job4j.tracker;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -18,7 +18,7 @@ public class Tracker {
      * @param item добавляемая заявка
      * @return возвращает ссылку на добавленную заяку
      */
-    public Item add(Item item){
+    public Item add(Item item) {
         item.setId(this.generateID());
         items[position++] = item;
         return item;
@@ -31,7 +31,9 @@ public class Tracker {
      */
     public void replace(String id, Item item) {
         for (int pos = 0; pos < position; pos++) {
-            if (items[pos].getId().equals(id)) items[pos] = item;
+            if (items[pos].getId().equals(id)) {
+                items[pos] = item;
+            }
         }
     }
 

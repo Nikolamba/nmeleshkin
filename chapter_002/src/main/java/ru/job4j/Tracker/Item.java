@@ -1,4 +1,4 @@
-package ru.job4j.Tracker;
+package ru.job4j.tracker;
 
 /**
  * Класс, описывающий заявку
@@ -15,6 +15,11 @@ public class Item {
         this.name = name;
         this.description = desc;
         this.created = created;
+    }
+
+    Item(String name, String desc) {
+        this.name = name;
+        this.description = desc;
     }
 
     public String getId() {
