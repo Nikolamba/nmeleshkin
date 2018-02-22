@@ -1,4 +1,4 @@
-package ru.job4j.Profession;
+package ru.job4j.profession;
 
 public class Profession {
     private String userName;
@@ -9,6 +9,8 @@ public class Profession {
 
     public int coaching(Profession intern) {
         this.experience += 1;
+        System.out.println(this.getClass() + " " + this.getName() + " учит " + intern.getName());
+        System.out.println("Теперь опыт " + this.getClass() + " " + this.getName() + " = " + this.getExperience());
         return this.experience;
     }
 

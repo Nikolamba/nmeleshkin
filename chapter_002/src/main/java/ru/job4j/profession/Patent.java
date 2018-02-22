@@ -1,4 +1,4 @@
-package ru.job4j.Profession;
+package ru.job4j.profession;
 
 public class Patent {
     private int number;
