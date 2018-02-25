@@ -32,6 +32,8 @@ public class Tracker {
     public void replace(String id, Item item) {
         for (int pos = 0; pos < position; pos++) {
             if (items[pos].getId().equals(id)) {
+                String key = items[pos].getId();
+                item.setId(key);
                 items[pos] = item;
             }
         }
@@ -55,7 +57,9 @@ public class Tracker {
      * @return возвращает ссылку на массив заявок
      */
     public Item[] findAll() {
-        return Arrays.copyOf(items, position);
+        Item[] resultItem;
+        resultItem = Arrays.copyOf(items, position);
+        return resultItem;
     }
 
     /**

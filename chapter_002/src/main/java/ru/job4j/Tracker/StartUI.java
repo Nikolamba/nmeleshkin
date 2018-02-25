@@ -119,13 +119,14 @@ public class StartUI {
     /**
      * Функция для поиска заявки по id
      */
-    private void findById() {
+    private Item findById() {
+        Item item = null;
         if (tracker.findAll().length == 0) {
             System.out.println("Список заявок пуст");
         } else {
             System.out.println("-------------------Поиск заявки--------------------");
             String id = this.input.ask("Введите id заявки, которую нужно найти: ");
-            Item item = tracker.findById(id);
+            item = tracker.findById(id);
             if (item != null) {
                 System.out.println("Заявка id: " + item.getId() + ", name: " + item.getName()
                         + ", description: " + item.getDescription() + ", created: " + item.getCreated());
@@ -134,18 +135,20 @@ public class StartUI {
             }
             System.out.println("-------------------Поиск заявки завершен----------------------");
         }
+        return item;
     }
 
     /**
      * Функция для поиска заявки по name
      */
-    private void findByName() {
+    private Item[] findByName() {
+        Item[] items = null;
         if (tracker.findAll().length == 0) {
             System.out.println("Список заявок пуст");
         } else {
             System.out.println("---------------------Поиск заявок по имени---------------------");
             String name = this.input.ask("Введите name заявки, которую нужно найти: ");
-            Item[] items = tracker.findByName(name);
+            items = tracker.findByName(name);
             if (items.length > 0) {
                 for (Item item : items) {
                     System.out.println("Заявка id: " + item.getId() + ", name: " + item.getName()
@@ -156,6 +159,7 @@ public class StartUI {
             }
             System.out.println("---------------------Конец списка-------------------------");
         }
+        return items;
     }
 
     /**
