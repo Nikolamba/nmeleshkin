@@ -20,9 +20,12 @@ public class PaintTest {
         System.setOut(new PrintStream(out));
         new Paint().draw(new Square());
         assertThat(new String(out.toByteArray()), is(new StringBuilder()
-                                                .append("+++++\n")
-                                                .append("+   +\n")
-                                                .append("+   +\n")
+                                                .append("+++++")
+                                                .append(System.lineSeparator())
+                                                .append("+   +")
+                                                .append(System.lineSeparator())
+                                                .append("+   +")
+                                                .append(System.lineSeparator())
                                                 .append("+++++")
                                                 .append(System.lineSeparator())
                                                 .toString()));
@@ -36,8 +39,10 @@ public class PaintTest {
         System.setOut(new PrintStream(out));
         new Paint().draw(new Triangle());
         assertThat(new String(out.toByteArray()), is(new StringBuilder()
-                                                .append("  +  \n")
-                                                .append(" +++ \n")
+                                                .append("  +  ")
+                                                .append(System.lineSeparator())
+                                                .append(" +++ ")
+                                                .append(System.lineSeparator())
                                                 .append("+++++")
                                                 .append(System.lineSeparator())
                                                 .toString()));

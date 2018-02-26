@@ -16,9 +16,12 @@ public class SquareTest {
     public void whenDrawSquare() {
         Square square = new Square();
         StringBuilder expectedString = new StringBuilder();
-        expectedString.append("+++++\n");
-        expectedString.append("+   +\n");
-        expectedString.append("+   +\n");
+        expectedString.append("+++++");
+        expectedString.append(System.lineSeparator());
+        expectedString.append("+   +");
+        expectedString.append(System.lineSeparator());
+        expectedString.append("+   +");
+        expectedString.append(System.lineSeparator());
         expectedString.append("+++++");
         assertThat(square.draw(), is(expectedString.toString()));
     }
