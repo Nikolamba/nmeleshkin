@@ -1,5 +1,7 @@
 package ru.job4j.strategy;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -13,13 +15,22 @@ import static org.junit.Assert.*;
  * @version $Id$
  */
 public class PaintTest {
+    private static final PrintStream STDOUT = System.out;
+    private static final ByteArrayOutputStream OUT = new ByteArrayOutputStream();
+
+    @Before
+    public void loadOut() {
+        System.setOut(new PrintStream(this.OUT));
+    }
+    @After
+    public void backOut() {
+        OUT.reset();
+        System.setOut(STDOUT);
+    }
     @Test
     public void whenDrawSquare() {
-        PrintStream stdOut = System.out;
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
         new Paint().draw(new Square());
-        assertThat(new String(out.toByteArray()), is(new StringBuilder()
+        assertThat(new String(this.OUT.toByteArray()), is(new StringBuilder()
                                                 .append("+++++")
                                                 .append(System.lineSeparator())
                                                 .append("+   +")
@@ -29,16 +40,12 @@ public class PaintTest {
                                                 .append("+++++")
                                                 .append(System.lineSeparator())
                                                 .toString()));
-        System.setOut(stdOut);
     }
 
     @Test
     public void whenDrawTriangle() {
-        PrintStream stdOut = System.out;
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
         new Paint().draw(new Triangle());
-        assertThat(new String(out.toByteArray()), is(new StringBuilder()
+        assertThat(new String(this.OUT.toByteArray()), is(new StringBuilder()
                                                 .append("  +  ")
                                                 .append(System.lineSeparator())
                                                 .append(" +++ ")
@@ -46,6 +53,5 @@ public class PaintTest {
                                                 .append("+++++")
                                                 .append(System.lineSeparator())
                                                 .toString()));
-        System.setOut(stdOut);
     }
 }
