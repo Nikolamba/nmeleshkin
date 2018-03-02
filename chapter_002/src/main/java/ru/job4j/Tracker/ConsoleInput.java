@@ -20,4 +20,27 @@ public class ConsoleInput implements Input {
         System.out.print(question);
         return scanner.nextLine();
     }
+
+    /**
+     * функция, проверяющая корректность вводимых пользователем данных
+     * @param question информация для пользователя о требуемых данных
+     * @param range массив допустимых значений для ввода
+     * @return возвращает корректный ввод от пользователя
+     */
+    @Override
+    public int ask(String question, int[] range) {
+        int key = Integer.valueOf(this.ask(question));
+        boolean exist = false;
+        for (int value : range) {
+            if (key == value) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("Выход за границы допустимых значений");
+        }
+    }
 }

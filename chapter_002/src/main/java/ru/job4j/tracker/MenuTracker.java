@@ -42,15 +42,19 @@ public class MenuTracker {
 
     /**
      * Функция, заполняющая хранилище возможных действий пользователя
+     * @return общее количество пунктов меню
      */
-    public void fillAction() {
-        this.actions[0] = this.new CreateItem();
-        this.actions[1] = this.new ShowAllItems();
-        this.actions[2] = new MenuTracker.ReplaceItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = this.new FindById();
-        this.actions[5] = this.new FindByName();
-        this.actions[6] = this.new Exit();
+    public int fillAction() {
+        int index = 0;
+        this.actions[index++] = this.new CreateItem();
+        this.actions[index++] = this.new ShowAllItems();
+        this.actions[index++] = new MenuTracker.ReplaceItem();
+        this.actions[index++] = new DeleteItem();
+        this.actions[index++] = this.new FindById();
+        this.actions[index++] = this.new FindByName();
+        this.actions[index++] = this.new Exit();
+
+        return index;
     }
 
     /**

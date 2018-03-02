@@ -26,14 +26,25 @@ public class StartUI {
      */
     public void init() {
         MenuTracker menu = new MenuTracker(input, tracker);
-        menu.fillAction();
+        int rangeValue = menu.fillAction();
+        int[] range = new int[rangeValue];
+        fillRange(range);
         int key;
         do {
             menu.showMenu();
-            key = Integer.decode(input.ask("Select: "));
+            key = input.ask("Выбор: ", range);
             menu.startAction(key);
-
         } while (key != 6);
+    }
+
+    /**
+     * функция, заполняющая массив допустимых значения для ввода
+     * @param range массив для заполнения
+     */
+    private void fillRange(int[] range) {
+        for (int value = 0; value < range.length; value++) {
+            range[value] = value;
+        }
     }
 
     /**
@@ -41,6 +52,6 @@ public class StartUI {
      * @param args аргументы командной строки6
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }
