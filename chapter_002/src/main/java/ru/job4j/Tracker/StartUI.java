@@ -52,6 +52,6 @@ public class StartUI {
      * @param args аргументы командной строки6
      */
     public static void main(String[] args) {
-        new StartUI(new ValidateInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
     }
 }
