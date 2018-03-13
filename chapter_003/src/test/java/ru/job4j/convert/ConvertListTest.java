@@ -33,4 +33,15 @@ public class ConvertListTest {
         int[][] result = convertList.toArray(list, 3);
         assertThat(result, is(expected));
     }
+
+    @Test
+    public void whenUseToConvert() {
+        List<int[]> result = new ArrayList<>();
+        result.add(new int[]{1, 2, 3});
+        result.add(new int[]{4, 5});
+        result.add(new int[]{6, 7, 8, 9});
+        List<Integer> actual = convertList.convert(result);
+        List<Integer> expected = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        assertThat(expected, is(actual));
+    }
 }

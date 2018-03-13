@@ -43,4 +43,19 @@ public class ConvertList {
         }
         return result;
     }
+
+    /**
+     * ковертирует коллекцию массивов в коллекцию примитивов
+     * @param list коллекция для конвертации
+     * @return возвращает List
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new LinkedList<>();
+        for (int[] element : list) {
+            for (int i : element) {
+                result.add(i);
+            }
+        }
+        return result;
+    }
 }
