@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringContains.containsString;
@@ -33,7 +34,7 @@ public class StartUITest {
     public void whenUserAddItem() {
         Input input = new StubInput(new String[] {"0", "first item", "first desription", "6"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("first item"));
+        assertThat(tracker.findAll().get(0).getName(), is("first item"));
     }
 
     @Test
@@ -49,22 +50,22 @@ public class StartUITest {
         input = new StubInput(new String[] {"1", "6"});
         new StartUI(input, tracker).init();
         String expectedString1 = String.format("Заявка id: %s, name: %s, description: %s, created: %s",
-                tracker.findAll()[0].getId(),
-                tracker.findAll()[0].getName(),
-                tracker.findAll()[0].getDescription(),
-                tracker.findAll()[0].getCreated());
+                tracker.findAll().get(0).getId(),
+                tracker.findAll().get(0).getName(),
+                tracker.findAll().get(0).getDescription(),
+                tracker.findAll().get(0).getCreated());
 
         String expectedString2 = String.format("Заявка id: %s, name: %s, description: %s, created: %s",
-                tracker.findAll()[1].getId(),
-                tracker.findAll()[1].getName(),
-                tracker.findAll()[1].getDescription(),
-                tracker.findAll()[1].getCreated());
+                tracker.findAll().get(1).getId(),
+                tracker.findAll().get(1).getName(),
+                tracker.findAll().get(1).getDescription(),
+                tracker.findAll().get(1).getCreated());
 
         String expectedString3 = String.format("Заявка id: %s, name: %s, description: %s, created: %s",
-                tracker.findAll()[2].getId(),
-                tracker.findAll()[2].getName(),
-                tracker.findAll()[2].getDescription(),
-                tracker.findAll()[2].getCreated());
+                tracker.findAll().get(2).getId(),
+                tracker.findAll().get(2).getName(),
+                tracker.findAll().get(2).getDescription(),
+                tracker.findAll().get(2).getCreated());
         //ищем, содержатся ли эти заявки в выходном потоке
         assertThat(OUT.toString(), containsString(expectedString1));
         assertThat(OUT.toString(), containsString(expectedString2));
@@ -89,11 +90,11 @@ public class StartUITest {
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
-        Input input = new StubInput(new String[]{"3", tracker.findAll()[1].getId(), "6"});
+        Input input = new StubInput(new String[]{"3", tracker.findAll().get(1).getId(), "6"});
         new StartUI(input, tracker).init();
-        Item[] items = tracker.findAll();
-        assertThat(items[0].getName(), is("first item"));
-        assertThat(items[1].getName(), is("third item"));
+        List<Item> items = tracker.findAll();
+        assertThat(items.get(0).getName(), is("first item"));
+        assertThat(items.get(1).getName(), is("third item"));
     }
 
     @Test
@@ -106,14 +107,14 @@ public class StartUITest {
         //меняем выходной поток
         this.loadOut();
         //выводим в выходной поток данные по заявке с индексом "1"
-        input = new StubInput(new String[] {"4", tracker.findAll()[1].getId(), "6"});
+        input = new StubInput(new String[] {"4", tracker.findAll().get(1).getId(), "6"});
         new StartUI(input, tracker).init();
 
         String expectedString = String.format("Заявка id: %s, name: %s, description: %s, created: %s",
-                tracker.findAll()[1].getId(),
-                tracker.findAll()[1].getName(),
-                tracker.findAll()[1].getDescription(),
-                tracker.findAll()[1].getCreated());
+                tracker.findAll().get(1).getId(),
+                tracker.findAll().get(1).getName(),
+                tracker.findAll().get(1).getDescription(),
+                tracker.findAll().get(1).getCreated());
         //проверяем, содержит ли выходной поток информацию по выбранной заявке
         assertThat(OUT.toString(), containsString(expectedString));
         this.backOut();
@@ -127,8 +128,8 @@ public class StartUITest {
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
-        Item[] items = tracker.findByName("first item");
-        assertThat(items[0].getDescription(), is("first description"));
-        assertThat(items[1].getDescription(), is("third description"));
+        List<Item> items = tracker.findByName("first item");
+        assertThat(items.get(0).getDescription(), is("first description"));
+        assertThat(items.get(1).getDescription(), is("third description"));
     }
 }

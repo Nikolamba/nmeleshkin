@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 /**
  * Класс, реализующий удаление выбранной заявки из трекера
  */
@@ -10,7 +12,7 @@ class DeleteItem extends BaseAction {
     }
 
     public void execute(Input input, Tracker tracker) {
-        if (tracker.findAll().length == 0) {
+        if (tracker.findAll().isEmpty()) {
             System.out.println("Список заявок пуст");
         } else {
             System.out.println("--------------------Удаление заявки-----------------------");
@@ -101,7 +103,7 @@ public class MenuTracker {
         }
 
         public void execute(Input input, Tracker tracker) {
-            if (tracker.findAll().length == 0) {
+            if (tracker.findAll().isEmpty()) {
                 System.out.println("Список заявок пуст");
             } else {
                 System.out.println("-----------------Изменение заявки--------------------");
@@ -126,8 +128,8 @@ public class MenuTracker {
 
         public void execute(Input input, Tracker tracker) {
             System.out.println("---------------------Список всех заявок---------------------");
-            Item[] items = tracker.findAll();
-            if (items.length > 0) {
+            List<Item> items = tracker.findAll();
+            if (items.size() > 0) {
                 for (Item item : items) {
                     System.out.println("Заявка id: " + item.getId() + ", name: " + item.getName()
                             + ", description: " + item.getDescription() + ", created: " + item.getCreated());
@@ -150,7 +152,7 @@ public class MenuTracker {
         }
 
         public void execute(Input input, Tracker tracker) {
-            if (tracker.findAll().length == 0) {
+            if (tracker.findAll().isEmpty()) {
                 System.out.println("Список заявок пуст");
             } else {
                 System.out.println("-------------------Поиск заявки--------------------");
@@ -177,13 +179,13 @@ public class MenuTracker {
         }
 
         public void execute(Input input, Tracker tracker) {
-            if (tracker.findAll().length == 0) {
+            if (tracker.findAll().isEmpty()) {
                 System.out.println("Список заявок пуст");
             } else {
                 System.out.println("---------------------Поиск заявок по имени---------------------");
                 String name = input.ask("Введите name заявки, которую нужно найти: ");
-                Item[] items = tracker.findByName(name);
-                if (items.length > 0) {
+                List<Item> items = tracker.findByName(name);
+                if (items.size() > 0) {
                     for (Item item : items) {
                         System.out.println("Заявка id: " + item.getId() + ", name: " + item.getName()
                                 + ", description: " + item.getDescription() + ", created: " + item.getCreated());

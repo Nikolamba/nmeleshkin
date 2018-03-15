@@ -2,6 +2,10 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -18,8 +22,8 @@ public class TrackerTest {
         Item item2 = new Item("second item", "second description", 456L);
         tracker.add(item);
         tracker.add(item2);
-        assertThat(tracker.findAll()[0], is(item));
-        assertThat(tracker.findAll()[1], is(item2));
+        assertThat(tracker.findAll().get(0), is(item));
+        assertThat(tracker.findAll().get(1), is(item2));
     }
 
     @Test
@@ -27,7 +31,6 @@ public class TrackerTest {
         Item item = new Item("first item", "first description", 123L);
         Item item2 = new Item("second item", "second description", 456L);
         tracker.add(item);
-        item2.setId(item.getId());
         tracker.replace(item.getId(), item2);
         assertThat(tracker.findById(item.getId()).getName(), is("second item"));
 
@@ -42,8 +45,8 @@ public class TrackerTest {
         tracker.add(item2);
         tracker.add(item3);
         tracker.delete(item2.getId());
-        assertThat(tracker.findAll()[0], is(item));
-        assertThat(tracker.findAll()[1], is(item3));
+        assertThat(tracker.findAll().get(0), is(item));
+        assertThat(tracker.findAll().get(1), is(item3));
     }
 
     @Test
@@ -54,8 +57,8 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item2);
         tracker.add(item3);
-        Item[] findAll = tracker.findAll();
-        Item[] expected = new Item[]{item, item2, item3};
+        List<Item> findAll = tracker.findAll();
+        List<Item> expected = new ArrayList<>(Arrays.asList(item, item2, item3));
         assertThat(findAll, is(expected));
     }
 
@@ -79,8 +82,8 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(item2);
         tracker.add(item3);
-        Item[] result = tracker.findByName(item3.getName());
-        Item[] expected = new Item[]{item, item3};
+        List<Item> result = tracker.findByName(item3.getName());
+        List<Item> expected = new ArrayList<>(Arrays.asList(item, item3));
         assertThat(expected, is(result));
     }
 }
