@@ -36,10 +36,12 @@ public class SortUserTest {
                 new User("Petr", 38)));
         List<User> result = sortUser.sortNameLength(list);
 
-        assertThat(result.get(0).getName(), is("Petr"));
-        assertThat(result.get(1).getName(), is("Nikolay"));
-        assertThat(result.get(2).getName(), is("Nataliya"));
-        assertThat(result.get(3).getName(), is("Aleksandr"));
+        List<User> expected = new ArrayList<>(Arrays.asList(new User("Petr", 38),
+                new User("Nikolay", 33),
+                new User("Nataliya", 27),
+                new User("Aleksandr", 16)));
+
+        assertThat(result, is(expected));
     }
 
     @Test
@@ -50,9 +52,11 @@ public class SortUserTest {
                 new User("Petr", 38)));
         List<User> result = sortUser.sortByAllFields(list);
 
-        assertThat(result.get(0), is(new User("Nataliya", 27)));
-        assertThat(result.get(1), is(new User("Nikolay", 16)));
-        assertThat(result.get(2), is(new User("Nikolay", 33)));
-        assertThat(result.get(3), is(new User("Petr", 38)));
+        List<User> expected = new ArrayList<>(Arrays.asList(new User("Nataliya", 27),
+                new User("Nikolay", 16),
+                new User("Nikolay", 33),
+                new User("Petr", 38)));
+
+        assertThat(result, is(expected));
     }
 }
