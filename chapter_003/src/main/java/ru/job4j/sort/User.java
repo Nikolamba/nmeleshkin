@@ -3,6 +3,11 @@ package ru.job4j.sort;
 import java.util.Iterator;
 import java.util.Objects;
 
+/**
+ * Класс описания пользователя
+ * @author Nikolay Meleshkin (sol.of.f@mail.ru)
+ * @version 0.1
+ */
 public class User implements Comparable<User> {
     private String name;
     private int age;
@@ -22,13 +27,28 @@ public class User implements Comparable<User> {
 
     public int compareTo(User user)   {
 
-        int result = Integer.compare(this.age, user.age);
-        result = (result == 0) ? result : this.name.compareTo(user.name);
-
-        return result;
+        return Integer.compare(this.age, user.age);
     }
 
     public String toString() {
         return (name + " " + age);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return age == user.age && Objects.equals(name, user.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, age);
     }
 }
