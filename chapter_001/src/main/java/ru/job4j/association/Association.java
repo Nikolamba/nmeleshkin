@@ -20,13 +20,19 @@ public class Association {
         while(counter != lenght) {
                 if (firstArray[first] < secondArray[second]) {
                     resultArray[counter] = firstArray[first];
-                    if (first == firstArray.length - 1) firstArray[first] = Integer.MAX_VALUE;
-                    else first++;
+                    if (first == firstArray.length - 1) {
+                        firstArray[first] = Integer.MAX_VALUE;
+                    } else {
+                        first++;
+                    }
                     counter++;
                 } else {
                     resultArray[counter] = secondArray[second];
-                    if (second == secondArray.length - 1) secondArray[second] = Integer.MAX_VALUE;
-                    else second++;
+                    if (second == secondArray.length - 1) {
+                        secondArray[second] = Integer.MAX_VALUE;
+                    } else {
+                        second++;
+                    }
                     counter++;
                     }
                 }
