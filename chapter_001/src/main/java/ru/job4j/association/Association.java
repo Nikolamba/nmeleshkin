@@ -17,7 +17,7 @@ public class Association {
         int[] resultArray = new int[lenght];
         int counter = 0;
         int first = 0, second = 0;
-        while(counter != lenght) {
+        while (counter != lenght) {
                 if (firstArray[first] < secondArray[second]) {
                     resultArray[counter] = firstArray[first];
                     if (first == firstArray.length - 1) {
