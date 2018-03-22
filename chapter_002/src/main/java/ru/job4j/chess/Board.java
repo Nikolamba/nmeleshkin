@@ -15,7 +15,7 @@ public class Board {
     private Cell[] cells = new Cell[64];
 
     public Board() {
-        fillCells();
+
     }
     /**
      * функция возвращает ячейку поля по указанным координатам
@@ -40,13 +40,7 @@ public class Board {
      * @param figure фигура для добавления
      * @throws OccupiedWayException путь занят
      */
-    public void add(Figure figure) throws OccupiedWayException {
-        //если позиция занята, выкидываем исключение
-        if (figure.position.isBusy()) {
-            throw new OccupiedWayException("Клетка занята. Повторите попытку");
-        }
-
-        figure.position.setBusy(true);
+    public void add(Figure figure) {
         figures[countFigures++] = figure;
     }
 
@@ -61,10 +55,8 @@ public class Board {
      */
     public boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
 
-        boolean result;
-
         //если в ячейке нет фигуры выкидываем исключение
-        if (!source.isBusy()) {
+        if (source == null) {
             throw new FigureNotFoundException("Нет фигуры для перемещения!");
         }
         //если фигура неможет ходить по указанному пути выкидываем исключение
@@ -73,33 +65,40 @@ public class Board {
         }
         Cell[] wayCells = findFigure(source).way(dest);
         //присваиваем виртуальным ячейкам пути реальные значения ячеек дсски
-        this.combine(wayCells);
+        this.combine(wayCells, source);
         //если на пути фигуры появляются помехи выкидываем исключение
         for (Cell cell : wayCells) {
-            if (cell.isBusy()) {
+            if (cell != null) {
                 throw new OccupiedWayException("Путь для фигуры занят!");
             }
         }
 
-        source.setBusy(false);
-        //перемещаем фигуру
-        findFigure(source).copy(dest);
-        dest.setBusy(true);
-        result = true;
+        dest = this.createCell(dest.getPosX(), dest.getPosY());
+        int index = this.findFigureIndex(source);
+        figures[index] = this.findFigure(source).copy(dest);
+        cells[source.getPosX() * SIZE_BOARD + source.getPosY()] = null;
 
-        return result;
+        return true;
     }
 
     /**
-     * проводит инициализацию массива ячеек поля
+     * инициализирует ячейку поля
      */
-    private void fillCells() {
-        int cellsPosition = 0;
-        for (int x = 0; x < SIZE_BOARD; x++) {
-            for (int y = 0; y < SIZE_BOARD; y++) {
-                this.cells[cellsPosition++] = new Cell(x, y);
-            }
+    public Cell createCell(int x, int y) {
+        this.cells[x * SIZE_BOARD + y] = new Cell(x, y);
+        return this.cells[x * SIZE_BOARD + y];
+    }
+
+    /**
+     * возвращает все фигуры, которые есть на поле
+     * @return массив фигур, находящихся на поле
+     */
+    public Figure[] getAllFigures() {
+        Figure[] result = new Figure[this.countFigures];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = this.figures[i];
         }
+        return result;
     }
 
     /**
@@ -118,13 +117,32 @@ public class Board {
         return result;
     }
 
+    private int findFigureIndex(Cell cell) {
+        int result = -1;
+        for (int i = 0; i < figures.length; i++) {
+            if (figures[i].position == cell) {
+                result = i;
+                break;
+            }
+        }
+        return result;
+    }
+
     /**
      * присваивает виртуальным ячейкам реальные значения ячеек дсски
      * @param wayCells целевой массив для присвоения
      */
-    private void combine(Cell[] wayCells) {
+    private void combine(Cell[] wayCells, final Cell source) {
+        Cell start = new Cell(source.getPosX(), source.getPosY());
+
         for (int i = 0; i < wayCells.length; i++) {
-            wayCells[i] = this.cells[(wayCells[i].getPosX() * SIZE_BOARD) + wayCells[i].getPosY()];
+            Cell cell = this.cells[(start.getPosX() * SIZE_BOARD) + (wayCells[i].getPosX() * SIZE_BOARD)
+                    + start.getPosY() + wayCells[i].getPosY()];
+            start.setPosX(start.getPosX() + wayCells[i].getPosX());
+            start.setPosY(start.getPosY() + wayCells[i].getPosY());
+            wayCells[i] = cell;
         }
     }
+
+
 }

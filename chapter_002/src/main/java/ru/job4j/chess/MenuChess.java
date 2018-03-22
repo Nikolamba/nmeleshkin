@@ -22,7 +22,8 @@ public class MenuChess {
         int index = 0;
         userActions[index++] = new AddFigure(0, "Добавить фигуру");
         userActions[index++] = new MoveFigure(1, "Переместить фигуру");
-        userActions[index++] = new Exit(2, "Выход");
+        userActions[index++] = new GetAllFigures(2, "Показать все фигуры");
+        userActions[index++] = new Exit(3, "Выход");
         return index;
     }
 
@@ -75,6 +76,10 @@ public class MenuChess {
                     coorX = Integer.valueOf(input.ask("Введите первую кооридинату поля: "));
                     coorY = Integer.valueOf(input.ask("Введите вторую координату поля: "));
                     Cell cell = board.getCell(coorX, coorY);
+                    if (cell != null) {
+                        throw new OccupiedWayException("Клетка занята. Повторите попытку");
+                    }
+                    cell = board.createCell(coorX, coorY);
                     board.add(new Bishop(cell));
                     result = true;
                 } catch (OccupiedWayException owe) {
@@ -121,7 +126,7 @@ public class MenuChess {
                         Cell source = board.getCell(coorX, coorY);
                         coorX = Integer.valueOf(input.ask("Куда перемещаем? Введите первую координату поля: "));
                         coorY = Integer.valueOf(input.ask("Куда перемещаем? Введите вторую координату поля: "));
-                        Cell dest = board.getCell(coorX, coorY);
+                        Cell dest = new Cell(coorX, coorY);
                         board.move(source, dest);
                         result = true;
                     } catch (FigureNotFoundException ffe) {
@@ -139,6 +144,41 @@ public class MenuChess {
 
                 System.out.println("------------------ Перемещение закончено ----------------------");
             }
+        }
+    }
+
+    /**
+     * реализует просмотр всех фигур на поле
+     */
+    private class GetAllFigures implements UserActions {
+        private int key;
+        private String note;
+
+        private GetAllFigures(int key, String note) {
+            this.key = key;
+            this.note = note;
+        }
+
+        public int key() {
+            return this.key;
+        }
+
+        public String info() {
+            return String.format("%s. %s", key, this.note);
+        }
+
+        public void execute(Input input) {
+            if (board.getCountFigures() == 0) {
+                System.out.println("На доске нет фигур");
+            } else {
+                System.out.println("----------------- Показаны все фигуры -------------------");
+                Figure[] allFigures = board.getAllFigures();
+                for (Figure figure : allFigures) {
+                    System.out.println(figure.getClass().getSimpleName() + " (" + figure.position.getPosX()
+                    + " : " + figure.position.getPosY() + ")");
+                }
+            }
+            System.out.println("------------------------------------------------------------");
         }
     }
 

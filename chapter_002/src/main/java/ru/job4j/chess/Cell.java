@@ -9,12 +9,10 @@ package ru.job4j.chess;
 public class Cell {
     private int posX;
     private int posY;
-    private boolean busy;
 
     public Cell(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
-        this.busy = false;
     }
 
     public int getPosX() {
@@ -31,13 +29,5 @@ public class Cell {
 
     public void setPosY(int posY) {
         this.posY = posY;
-    }
-
-    public boolean isBusy() {
-        return busy;
-    }
-
-    public void setBusy(boolean busy) {
-        this.busy = busy;
     }
 }

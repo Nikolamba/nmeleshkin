@@ -1,7 +1,7 @@
 package ru.job4j.chess;
 
 /**
- * класс, реализующий запуск программы
+ * класс, реализующий запуск программ
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
  * @version 0.1
  */
@@ -15,7 +15,7 @@ public class StartChess {
     }
 
     /**
-     * функция запускает основной цикл программы
+     * функия запускает основной цикл программы
      */
     public void init() {
         MenuChess menu = new MenuChess(this.input, this.board);
@@ -25,7 +25,7 @@ public class StartChess {
             menu.showMenu();
             key = Integer.valueOf(input.ask("Выберите доступный пункт меню: "));
             menu.execute(key);
-        } while (key != 2);
+        } while (key != 3);
     }
 
     public static void main(String[] args) {

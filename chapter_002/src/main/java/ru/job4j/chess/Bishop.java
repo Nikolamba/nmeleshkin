@@ -15,34 +15,16 @@ public class Bishop extends Figure {
      * @return массив ячеек поля, который нужно пройти фигуре
      */
     public Cell[] way(Cell dest) {
-        Cell[] wayCell;
-        int wayLength;
-        int posX = this.position.getPosX();
-        int posY = this.position.getPosY();
+        int deltaX = dest.getPosX() - this.position.getPosX();
+        int deltaY = dest.getPosY() - this.position.getPosY();
+        int wayLength = (deltaX != 0) ? Math.abs(deltaX) : Math.abs(deltaY);
+        Cell[] wayCell = new Cell[wayLength];
+        deltaX = (deltaX != 0) ? deltaX / Math.abs(deltaX) : deltaX;
+        deltaY = (deltaY != 0) ? deltaY / Math.abs(deltaY) : deltaY;
 
-        //если движение по вертикали
-        if (posX != dest.getPosX()) {
-            wayLength = Math.abs(posX - dest.getPosX());
-            wayCell = new Cell[wayLength];
-            //переменная, определяющая направление движения
-            int direction = (posX > dest.getPosX()) ? -1 : 1;
-            int counter = 0;
-            for (int i = posX + direction; i - dest.getPosX() - direction != 0; i = i + direction) {
-                wayCell[counter++] = new Cell(i, posY);
-            }
-            //если движение по горизонтали
-        } else {
-
-            wayLength = Math.abs(posY - dest.getPosY());
-            wayCell = new Cell[wayLength];
-            //переменная, определяющая направление движения
-            int direction = (posY > dest.getPosY()) ? -1 : 1;
-            int counter = 0;
-            for (int i = posY + direction; i - dest.getPosY() - direction != 0; i = i + direction) {
-                wayCell[counter++] = new Cell(posX, i);
-            }
+        for (int i = 0; i < wayLength; i++) {
+            wayCell[i] = new Cell(deltaX, deltaY);
         }
-
         return wayCell;
     }
 
