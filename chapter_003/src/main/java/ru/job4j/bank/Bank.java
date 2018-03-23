@@ -36,9 +36,8 @@ public class Bank {
      * @param account счет, который необходимо добавить пользователю
      */
     public void addAccountToUser(String passport, Account account) {
-        User client = new User("", passport);
-        if (clients.containsKey(client)) {
-               clients.get(client).add(account);
+        if (clients.containsKey(new User("", passport))) {
+               clients.get(new User("", passport)).add(account);
         }
     }
 
@@ -48,9 +47,8 @@ public class Bank {
      * @param account счет, который необходимо удалить у пользователя
      */
     public void deleteAccountFromUser(String passport, Account account) {
-        User client = new User("", passport);
-        if (clients.containsKey(client)) {
-            clients.get(client).remove(account);
+        if (clients.containsKey(new User("", passport))) {
+            clients.get(new User("", passport)).remove(account);
         }
     }
 
@@ -60,10 +58,9 @@ public class Bank {
      * @return список счетов пользователя
      */
     public List<Account> getUserAccounts(String passport) {
-        User client = new User("", passport);
         List<Account> result = null;
-        if (clients.containsKey(client)) {
-            result = clients.get(client);
+        if (clients.containsKey(new User("", passport))) {
+            result = clients.get(new User("", passport));
         }
         return result;
     }
@@ -73,16 +70,12 @@ public class Bank {
                                  String destPassport, String destRequisite, double amount) {
         boolean result = false;
 
-        User us1 = new User("", srcPassport);
-        User us2 = new User("", destPassport);
-        Account accUs1 = new Account(0, srcRequisite);
-        Account accUs2 = new Account(0, destRequisite);
-
-        if (this.clients.containsKey(us1)
-                && this.clients.containsKey(us2)
-                && this.clients.get(us1).contains(accUs1)
-                && this.clients.get(us2).contains(accUs2)
+        if (this.clients.containsKey(new User("", srcPassport))
+                && this.clients.containsKey(new User("", destPassport))
+                && this.getUserAccounts(srcPassport).contains(new Account(0, srcRequisite))
+                && this.getUserAccounts(destPassport).contains(new Account(0, destRequisite))
                 && this.getActualAccount(srcPassport, srcRequisite).getValue() >= amount) {
+
             this.getActualAccount(srcPassport, srcRequisite).reduceBy(amount);
             this.getActualAccount(destPassport, destRequisite).increaseBy(amount);
             result = true;

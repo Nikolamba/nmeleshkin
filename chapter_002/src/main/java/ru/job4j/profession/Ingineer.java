@@ -6,7 +6,7 @@ public class Ingineer extends Profession {
     public int work(Device device) {
         device.setDiagnosis("Breaking");
         this.setSalary(100);
-        System.out.println("Инженер " + this.getName() + " ремонтирует " + device.getName());
+        System.out.println("инженер " + this.getName() + " ремонтирует " + device.getName());
         return this.getSalary();
     }
 
