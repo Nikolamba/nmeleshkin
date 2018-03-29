@@ -8,7 +8,7 @@ import java.util.Iterator;
  */
 public class MatrixIterator implements Iterator<Integer> {
 
-    private int[] massiv;
+    private Integer[] massiv;
     private int position = 0;
 
     MatrixIterator(int[][] massiv) {
@@ -16,7 +16,7 @@ public class MatrixIterator implements Iterator<Integer> {
         for (int[] subMas : massiv) {
             lenghtMas += subMas.length;
         }
-        int[] result = new int[lenghtMas];
+        Integer[] result = new Integer[lenghtMas];
         int index = 0;
         for (int[] subMas : massiv) {
             for (int value : subMas) {
