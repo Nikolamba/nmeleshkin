@@ -13,7 +13,7 @@ public class Changes {
         int index = 0;
 
         for (int i = coin.length - 1; i >= 0; i--) {
-            while(oddMoney / coin[i] >= 1) {
+            while (oddMoney / coin[i] >= 1) {
                 res[index++] = coin[i];
                 oddMoney -= coin[i];
             }

@@ -31,9 +31,13 @@ public class Departments {
                 String[] split2 = o2.split("\\\\");
                 if (split1[0].compareTo(split2[0]) == 0) {
                     result = Integer.compare(o1.length(), o2.length());
-                    if (result == 0) result = - (o1.compareTo(o2));
+                    if (result == 0) {
+                        result = -(o1.compareTo(o2));
+                    }
                 }
-                else result = - (o1.compareTo(o2));
+                else {
+                    result = -(o1.compareTo(o2));
+                }
                 return result;
             }
         });
@@ -46,7 +50,7 @@ public class Departments {
                 "K2", "K2\\SK1\\SSK1", "K2\\SK1\\SSK2"};
         List<String> list = new ArrayList<>();
 
-        for(String string : massiv) {
+        for (String string : massiv) {
             String[] subStrings = string.split("\\\\");
             String accum = "";
             for (String sub : subStrings) {
