@@ -61,8 +61,8 @@ public class MatrixIteratorTest {
         assertThat(it.next(), is(6));
     }
 
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void shoulThrowArrayIndexOutOfBoundException() {
+    @Test(expected = NoSuchElementException.class)
+    public void shoulThrowNoSuchElementException() {
         it = new MatrixIterator(new int[][]{});
         it.next();
     }
