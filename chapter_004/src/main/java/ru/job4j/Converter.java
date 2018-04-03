@@ -2,6 +2,10 @@ package ru.job4j;
 
 import java.util.Iterator;
 
+/**
+ * @author Nikolay Meleshkin (sol.of.f@mail.ru)
+ * @version 0.1
+ */
 public class Converter {
 
     Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {

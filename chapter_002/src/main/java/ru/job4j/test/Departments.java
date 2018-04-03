@@ -34,8 +34,7 @@ public class Departments {
                     if (result == 0) {
                         result = -(o1.compareTo(o2));
                     }
-                }
-                else {
+                } else {
                     result = -(o1.compareTo(o2));
                 }
                 return result;
