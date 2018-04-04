@@ -1,12 +1,13 @@
-package ru.job4j;
+package ru.job4j.generic;
 
 import org.junit.Test;
+import ru.job4j.generic.SimpleArray;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)

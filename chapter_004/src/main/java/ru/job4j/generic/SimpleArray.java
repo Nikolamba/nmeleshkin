@@ -1,4 +1,4 @@
-package ru.job4j;
+package ru.job4j.generic;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -40,6 +40,16 @@ public class SimpleArray<T> implements Iterable<T> {
     @SuppressWarnings("unchecked")
     public T get(int index) {
         return (T) this.elements[index];
+    }
+
+    public int getIndex(T model) {
+        int result = -1;
+        for (int i = 0; i < this.size; i++) {
+            if (this.elements[i] == model) {
+                result = i;
+            }
+        }
+        return result;
     }
 
     @Override
