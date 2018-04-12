@@ -101,4 +101,15 @@ public class ConverterTest {
         assertThat(it.next(), is(3));
         it.next();
     }
+
+    @Test (expected = NoSuchElementException.class)
+    public void nextShouldNoSuchElementExceptionInCaseOfEmptyIterators() {
+        Iterator<Integer> it1 = new ArrayList<Integer>().iterator();
+        Iterator<Integer> it2 = new ArrayList<Integer>().iterator();
+        Iterator<Integer> it3 = new ArrayList<Integer>().iterator();
+        Iterator<Iterator<Integer>> its = Arrays.asList(it1, it2, it3).iterator();
+        Converter iteratorOfIterators = new Converter();
+        it = iteratorOfIterators.convert(its);
+        it.next();
+    }
 }
