@@ -30,14 +30,48 @@ public class DynamicLinkedList<T> implements Iterable<T> {
     }
 
     public T get(int index) {
+        Node<T> n = findElementByIndex(index);
+        return n.value;
+    }
+
+    public void remove(int index) {
+        Node<T> n = findElementByIndex(index);
+
+        if (size == 1) {
+            last = null;
+            first = null;
+            size = 0;
+            modCount++;
+        } else if (n == last) {
+            last = n.previous;
+            last.next = null;
+            size--;
+            modCount++;
+        } else if (n == first) {
+            first = n.next;
+            first.previous = null;
+            size--;
+            modCount++;
+        } else {
+            Node<T> prev = n.previous;
+            Node<T> next = n.next;
+            prev.next = next;
+            next.previous = prev;
+            size--;
+            modCount++;
+        }
+
+    }
+
+    private Node<T> findElementByIndex(int index) {
         if (index >= size) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        Node<T> n = first;
+        Node<T> result = first;
         for (int i = 0; i < index; i++) {
-            n = n.next;
+            result = result.next;
         }
-        return n.value;
+        return result;
     }
 
     public int size() {
