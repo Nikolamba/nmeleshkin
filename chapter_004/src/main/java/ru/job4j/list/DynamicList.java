@@ -14,11 +14,11 @@ public class DynamicList<T> implements Iterable<T> {
 
     private Object[] container;
     private int size;
-    private int capacity = 3;
+    private static final int DEFAULT_CAPACITY = 2;
     private int modCount;
 
     DynamicList() {
-        this.container = new Object[this.capacity];
+        this.container = new Object[DEFAULT_CAPACITY];
     }
 
     public void add(T value) {
@@ -64,7 +64,6 @@ public class DynamicList<T> implements Iterable<T> {
     }
 
     private void grow() {
-        capacity = capacity * 2;
-        container = Arrays.copyOf(container, capacity);
+        container = Arrays.copyOf(container, container.length * DEFAULT_CAPACITY);
     }
 }
