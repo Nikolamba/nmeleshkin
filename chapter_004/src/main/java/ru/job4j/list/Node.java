@@ -17,7 +17,7 @@ public class Node<T> {
     boolean hasCycle(Node first) {
         Node slow = first;
         Node fast = first.next;
-        while(fast != null) {
+        while (fast != null) {
             if (fast == slow) {
                 return true;
             }

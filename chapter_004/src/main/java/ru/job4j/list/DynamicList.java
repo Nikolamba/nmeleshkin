@@ -17,7 +17,7 @@ public class DynamicList<T> implements Iterable<T> {
     private static final int DEFAULT_CAPACITY = 2;
     private int modCount;
 
-    DynamicList() {
+    public DynamicList() {
         this.container = new Object[DEFAULT_CAPACITY];
     }
 
