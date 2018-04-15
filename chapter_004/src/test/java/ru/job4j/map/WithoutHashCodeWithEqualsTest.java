@@ -9,7 +9,7 @@ import java.util.Map;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
-public class WithoutEqualsAndHashCodeTest {
+public class WithoutHashCodeWithEqualsTest {
 
     private Map<User, Object> map = new HashMap<>();
 
