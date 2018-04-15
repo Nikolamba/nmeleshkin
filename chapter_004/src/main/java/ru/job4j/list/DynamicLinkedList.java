@@ -34,24 +34,38 @@ public class DynamicLinkedList<T> implements Iterable<T> {
         return n.value;
     }
 
+    public void removeFirst() {
+        if (this.size == 1) {
+            clear();
+        } else {
+            this.first = first.next;
+            this.first.previous = null;
+            size--;
+            modCount++;
+        }
+    }
+
+    public void removeLast() {
+        if (this.size == 1) {
+            clear();
+        } else {
+            this.last = last.previous;
+            this.last.next = null;
+            size--;
+            modCount++;
+        }
+
+    }
+
     public void remove(int index) {
         Node<T> n = findElementByIndex(index);
 
         if (size == 1) {
-            last = null;
-            first = null;
-            size = 0;
-            modCount++;
+            clear();
         } else if (n == last) {
-            last = n.previous;
-            last.next = null;
-            size--;
-            modCount++;
+            removeLast();
         } else if (n == first) {
-            first = n.next;
-            first.previous = null;
-            size--;
-            modCount++;
+            removeFirst();
         } else {
             Node<T> prev = n.previous;
             Node<T> next = n.next;
@@ -61,6 +75,13 @@ public class DynamicLinkedList<T> implements Iterable<T> {
             modCount++;
         }
 
+    }
+
+    private void clear() {
+        last = null;
+        first = null;
+        size = 0;
+        modCount++;
     }
 
     private Node<T> findElementByIndex(int index) {

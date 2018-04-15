@@ -10,7 +10,7 @@ public class SimpleQueue<T> {
 
     public T pool() {
         T result = list.get(0);
-        list.remove(0);
+        list.removeFirst();
         return result;
     }
 }
