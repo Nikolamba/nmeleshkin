@@ -27,12 +27,13 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     public void set(int index, T model) {
-        System.arraycopy(this.elements, index, this.elements, index + 1, this.size - index);
         this.elements[index] = model;
-        this.size++;
     }
 
     public void delete(int index) {
+        if (index >= size) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
         System.arraycopy(this.elements, index + 1, this.elements, index, this.size - index + 1);
         this.size--;
     }
@@ -45,8 +46,9 @@ public class SimpleArray<T> implements Iterable<T> {
     public int getIndex(T model) {
         int result = -1;
         for (int i = 0; i < this.size; i++) {
-            if (this.elements[i] == model) {
+            if (this.elements[i].equals(model)) {
                 result = i;
+                break;
             }
         }
         return result;
@@ -76,7 +78,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
     //если нужно увеличиваем объем массива
     private void checkSize() {
-        if (this.size >= this.capacity) {
+        if (this.size >= this.capacity - 1) {
             this.capacity += this.capacity;
             this.elements = Arrays.copyOf(this.elements, this.capacity);
         }

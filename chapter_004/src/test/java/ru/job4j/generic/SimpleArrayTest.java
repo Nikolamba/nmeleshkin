@@ -35,8 +35,7 @@ public class SimpleArrayTest {
         simpleArray.add(3);
         simpleArray.set(1, 5);
         assertThat(simpleArray.get(1), is(5));
-        assertThat(simpleArray.get(2), is(2));
-        assertThat(simpleArray.get(3), is(3));
+        assertThat(simpleArray.get(2), is(3));
     }
 
     @Test
@@ -45,9 +44,8 @@ public class SimpleArrayTest {
         simpleArray.add(2);
         simpleArray.add(3);
         simpleArray.add(4);
-        simpleArray.delete(1);
-        assertThat(simpleArray.get(1), is(3));
-        assertThat(simpleArray.get(2), is(4));
+        simpleArray.delete(3);
+        assertThat(simpleArray.get(1), is(2));
     }
 
     @Test (expected = NoSuchElementException.class)

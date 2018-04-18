@@ -1,5 +1,7 @@
 package ru.job4j.generic;
 
+import java.util.Objects;
+
 /**
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
  * @version 0.1
