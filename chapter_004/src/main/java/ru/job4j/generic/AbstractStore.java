@@ -1,14 +1,14 @@
 package ru.job4j.generic;
 
-public abstract class AbstractStore<Base> {
+public abstract class AbstractStore<T extends Base> {
 
-    protected SimpleArray<Base> elementArray = new SimpleArray<>();
+    private SimpleArray<T> elementArray = new SimpleArray<>();
 
-    public void add(Base model) {
+    public void add(T model) {
         elementArray.add(model);
     }
 
-    public boolean replace(String id, Base model) {
+    public boolean replace(String id, T model) {
         boolean result = false;
         if (findById(id) != null) {
             elementArray.set(elementArray.getIndex(findById(id)), model);
@@ -26,5 +26,14 @@ public abstract class AbstractStore<Base> {
         return result;
     }
 
-    abstract Base findById(String id);
+    public T findById(String id) {
+        T result = null;
+        for (T element : elementArray) {
+            if (element.getId().equals(id)) {
+                result = element;
+                break;
+            }
+        }
+        return result;
+    }
 }
