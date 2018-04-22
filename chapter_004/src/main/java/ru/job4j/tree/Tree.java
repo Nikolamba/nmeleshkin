@@ -20,10 +20,8 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     public boolean add(E parent, E child) {
-
         boolean result = false;
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
+        Queue<Node<E>> data = this.createQueue();
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
             if (el.getValue().compareTo(parent) == 0) {
@@ -33,47 +31,52 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 result = true;
                 break;
             }
-            for (Node<E> node : el.leaves()) {
-                data.offer(node);
-            }
         }
         return result;
     }
 
     public Optional<Node<E>> findBy(E value) {
-
         Optional<Node<E>> rsl = Optional.empty();
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
+        Queue<Node<E>> data = this.createQueue();
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
             if (el.eqValue(value)) {
                 rsl = Optional.of(el);
                 break;
             }
-            for (Node<E> child : el.leaves()) {
-                data.offer(child);
-            }
         }
         return rsl;
     }
 
+    public boolean isBynary() {
+        boolean result = true;
+        Queue<Node<E>> data = this.createQueue();
+        while (!data.isEmpty()) {
+            Node<E> el = data.poll();
+            if (el.leaves().size() > 2) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    private Queue<Node<E>> createQueue() {
+        List<Node<E>> data = new LinkedList<>();
+        Queue<Node<E>> queue = new LinkedList<>();
+
+        data.add(root);
+        for (int i = 0; i < size; i++) {
+            data.addAll(data.get(i).leaves());
+        }
+        queue.addAll(data);
+        return queue;
+    }
 
     @Override
     public Iterator<E> iterator() {
-        //создаем список всех элементов дерева
-        List<Node<E>> data = new LinkedList<>();
-        data.add(root);
-        for (int i = 0; i < size; i++) {
-            Node<E> el = data.get(i);
-            data.addAll(el.leaves());
-        }
-        //копируем все элементы в очередь
-        Queue<Node<E>> queue = new LinkedList<>();
-        queue.addAll(data);
-
+        Queue<Node<E>> queue = this.createQueue();
         return new Iterator<E>() {
-
             int saveModeCount = modCount;
 
             @Override

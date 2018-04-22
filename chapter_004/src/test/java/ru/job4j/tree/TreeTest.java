@@ -34,6 +34,26 @@ public class TreeTest {
         );
     }
 
+    @Test
+    public void whenTreeIsBynariShouldReturnTrue() {
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(3, 4);
+        tree.add(4, 5);
+        tree.add(4,6);
+        assertThat(tree.isBynary(), is(true));
+    }
+
+    @Test
+    public void whenTreeIsNotBynaryShouldReturnFalse() {
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(1, 4);
+        tree.add(4, 5);
+        tree.add(5, 6);
+        assertThat(tree.isBynary(), is(false));
+    }
+
     @Test (expected = NoSuchElementException.class)
     public void shoulThrowNoSuchElementException() {
         Iterator<Integer> iterator = tree.iterator();
