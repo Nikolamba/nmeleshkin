@@ -23,11 +23,9 @@ public class SimpleHashSet<E> {
         if (array[hashEl] == null) {
             array[hashEl] = element;
             countElement++;
-        } else {
-            if (array[hashEl] != element) {
-                this.grow();
-                add(element);
-            }
+        } else if (array[hashEl] != element) {
+            this.grow();
+            add(element);
         }
     }
 
