@@ -51,12 +51,10 @@ public class SimpleHashMap<K, V> implements Iterable<K> {
     }
 
     public boolean delete(K key) {
-        boolean result;
+        boolean result = false;
         int hash = this.hash(key);
 
-        if (this.table[hash] == null) {
-            result = false;
-        } else {
+        if (this.table[hash] != null) {
             this.table[hash] = null;
             size--;
             modCount++;
