@@ -19,17 +19,10 @@ public class RectangleMove implements Runnable {
             } else if (this.rect.getX() == 0) {
                 delta = 1;
             }
-            if (Thread.interrupted()) {
-                break;
-            }
-            if (Thread.currentThread().isInterrupted()) {
-                break;
-            }
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                break;
             }
         }
     }
