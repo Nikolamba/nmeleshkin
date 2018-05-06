@@ -13,7 +13,7 @@ public class SimpleStack<T> {
             throw new ArrayIndexOutOfBoundsException();
         }
         T result = list.get(list.size() - 1);
-        list.removeLast();
+            list.removeLast();
         return result;
     }
 }

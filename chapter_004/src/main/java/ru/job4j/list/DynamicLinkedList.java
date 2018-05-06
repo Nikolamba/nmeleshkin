@@ -1,22 +1,33 @@
 package ru.job4j.list;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
  * @version 0.1
  * @param <T> тип элементов в этом списке
  */
+@ThreadSafe
 public class DynamicLinkedList<T> implements Iterable<T> {
 
+    @GuardedBy("this")
     private Node<T> first = null;
+    @GuardedBy("this")
     private Node<T> last = null;
+    @GuardedBy("this")
     private int size = 0;
+    @GuardedBy("this")
     private int modCount = 0;
 
-    public void add(T value) {
+    public synchronized void add(T value) {
+
         final Node<T> l = last;
         Node<T> newNode = new Node<>(l, value, null);
         last = newNode;
@@ -32,9 +43,10 @@ public class DynamicLinkedList<T> implements Iterable<T> {
     public T get(int index) {
         Node<T> n = findElementByIndex(index);
         return n.value;
+
     }
 
-    public void removeFirst() {
+    public synchronized void removeFirst() {
         if (this.size == 1) {
             clear();
         } else {
@@ -45,7 +57,7 @@ public class DynamicLinkedList<T> implements Iterable<T> {
         }
     }
 
-    public void removeLast() {
+    public synchronized void removeLast() {
         if (this.size == 1) {
             clear();
         } else {
@@ -54,10 +66,9 @@ public class DynamicLinkedList<T> implements Iterable<T> {
             size--;
             modCount++;
         }
-
     }
 
-    public void remove(int index) {
+    public synchronized void remove(int index) {
         Node<T> n = findElementByIndex(index);
 
         if (size == 1) {
@@ -74,17 +85,16 @@ public class DynamicLinkedList<T> implements Iterable<T> {
             size--;
             modCount++;
         }
-
     }
 
-    private void clear() {
+    private synchronized void clear() {
         last = null;
         first = null;
         size = 0;
         modCount++;
     }
 
-    private Node<T> findElementByIndex(int index) {
+    private synchronized Node<T> findElementByIndex(int index) {
         if (index >= size) {
             throw new ArrayIndexOutOfBoundsException();
         }
@@ -95,12 +105,12 @@ public class DynamicLinkedList<T> implements Iterable<T> {
         return result;
     }
 
-    public int size() {
-        return size;
+    public synchronized int size() {
+        return this.size;
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public synchronized Iterator<T> iterator() {
         return new Iterator<T>() {
 
             Node<T> node = first;
