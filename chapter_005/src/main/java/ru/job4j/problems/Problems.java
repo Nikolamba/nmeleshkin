@@ -24,7 +24,7 @@ class CounterThread implements Runnable {
             //System.out.printf("'%s' - %d\n", Thread.currentThread().getName(), res.counter);
             res.increment();
             try {
-                Thread.sleep(10);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -37,7 +37,7 @@ public class Problems {
     public static void main(String[] args) {
         //создаем общий объект ссылочного типа
         CommonObject commonObject = new CommonObject();
-        for (int i = 1; i < 6; i++) {
+        for (int i = 0; i < 5; i++) {
             //и передаем его каждому потоку
             Thread t = new Thread(new CounterThread(commonObject));
             t.setName("Поток " + i);
