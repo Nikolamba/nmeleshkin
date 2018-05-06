@@ -1,5 +1,6 @@
 package ru.job4j.synchronizy;
 
+import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Set;
 @ThreadSafe
 public class UserStorage {
 
+    @GuardedBy("this")
     private Set<User> storage = new HashSet<>();
 
     public synchronized boolean add(User user) {
@@ -23,7 +25,7 @@ public class UserStorage {
         return result;
     }
 
-    public boolean update(User user) {
+    public synchronized boolean update(User user) {
         boolean result = false;
         if (storage.contains(user)) {
             synchronized (this.findUserByID(user.getId())) {
@@ -34,7 +36,7 @@ public class UserStorage {
         return result;
     }
 
-    public boolean delete(User user) {
+    public synchronized boolean delete(User user) {
         boolean result = false;
         if (storage.contains(user)) {
             synchronized (this.findUserByID(user.getId())) {
@@ -45,7 +47,7 @@ public class UserStorage {
         return result;
     }
 
-    public boolean transfer(int fromId, int toId, int amount) {
+    public synchronized boolean transfer(int fromId, int toId, int amount) {
         boolean result = false;
         if (storage.contains(new User(fromId, 0)) && storage.contains(new User(toId, 0))
                 && this.findUserByID(fromId).getMount() >= amount) {
@@ -60,7 +62,7 @@ public class UserStorage {
         return result;
     }
 
-    private User findUserByID(int id) {
+    private synchronized User findUserByID(int id) {
         User result = null;
         for (User user : this.storage) {
             if (user.equals(new User(id, 0))) {

@@ -5,6 +5,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
+
 /**
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
  * @version 0.1
@@ -75,5 +78,12 @@ public class UserStorageTest {
         t1.join(); t2.join(); t3.join();
         System.out.println("Amount of User0 = " + userStorage.getMountById(1));
         System.out.println("Amount of User1 = " + userStorage.getMountById(2));
+    }
+
+    @Test
+    public void whenUpdateUserWhoIsNotInListShouldResultIsFalse() {
+        userStorage.add(new User(0, 10));
+        boolean expected = userStorage.update(new User(1, 10));
+        assertThat(expected, is(false));
     }
 }
