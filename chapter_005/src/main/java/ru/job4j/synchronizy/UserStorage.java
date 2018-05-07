@@ -28,10 +28,8 @@ public class UserStorage {
     public synchronized boolean update(User user) {
         boolean result = false;
         if (storage.contains(user)) {
-            synchronized (this.findUserByID(user.getId())) {
-                this.findUserByID(user.getId()).setMount(user.getMount());
-                result = true;
-            }
+            this.findUserByID(user.getId()).setMount(user.getMount());
+            result = true;
         }
         return result;
     }
@@ -39,10 +37,8 @@ public class UserStorage {
     public synchronized boolean delete(User user) {
         boolean result = false;
         if (storage.contains(user)) {
-            synchronized (this.findUserByID(user.getId())) {
-                storage.remove(user);
-                result = true;
-            }
+            storage.remove(user);
+            result = true;
         }
         return result;
     }
@@ -51,13 +47,9 @@ public class UserStorage {
         boolean result = false;
         if (storage.contains(new User(fromId, 0)) && storage.contains(new User(toId, 0))
                 && this.findUserByID(fromId).getMount() >= amount) {
-            synchronized (this.findUserByID(fromId)) {
-                synchronized (this.findUserByID(toId)) {
-                    this.update(new User(fromId, this.findUserByID(fromId).getMount() - amount));
-                    this.update(new User(toId, this.findUserByID(toId).getMount() + amount));
-                    result = true;
-                }
-            }
+            this.update(new User(fromId, this.findUserByID(fromId).getMount() - amount));
+            this.update(new User(toId, this.findUserByID(toId).getMount() + amount));
+            result = true;
         }
         return result;
     }
