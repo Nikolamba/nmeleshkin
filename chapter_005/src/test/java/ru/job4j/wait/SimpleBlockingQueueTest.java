@@ -64,7 +64,7 @@ public class SimpleBlockingQueueTest {
         Thread offerThread1 = new Thread(new OfferValue(10));
         Thread offerThread2 = new Thread(new OfferValue(10));
         Thread offerThread3 = new Thread(new OfferValue(10));
-        Thread pollThread = new Thread(new PollValue(20));
+        Thread pollThread = new Thread(new PollValue(30));
         offerThread1.start(); offerThread2.start(); pollThread.start(); offerThread3.start();
         offerThread1.join(); offerThread2.join(); pollThread.join(); offerThread3.join();
     }
