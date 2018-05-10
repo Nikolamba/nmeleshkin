@@ -14,11 +14,13 @@ public class ThreadPoolTest {
     public void whenRunningSeveralThreads() throws InterruptedException {
         int n = Runtime.getRuntime().availableProcessors();
         ThreadPool pool = new ThreadPool(n);
+        pool.startThreads();
+
         for (int i = 0; i < 20; i++) {
             pool.add(new Work());
             Thread.sleep(100);
         }
-        pool.getThreads(0).join();
+        pool.getThread(0).join();
     }
 
 }

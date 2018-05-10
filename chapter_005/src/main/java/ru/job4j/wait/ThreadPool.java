@@ -16,18 +16,22 @@ public class ThreadPool {
     @GuardedBy("itself")
     private final Queue<Work> tasks;
     private final Thread[] threads;
+    private final int numThreads;
 
     ThreadPool(int numThreads) {
         tasks = new LinkedList<>();
         threads = new Thread[numThreads];
+        this.numThreads = numThreads;
+    }
 
-        for (int i = 0; i < numThreads; i++) {
+    public void startThreads() {
+        for (int i = 0; i < this.numThreads; i++) {
             threads[i] = new ThreadTask();
             threads[i].start();
         }
     }
 
-    public Thread getThreads(int id) {
+    public Thread getThread(int id) {
         return this.threads[id];
     }
 
