@@ -111,6 +111,7 @@ public class DynamicLinkedList<T> implements Iterable<T> {
 
     @Override
     public synchronized Iterator<T> iterator() {
+
         return new Iterator<T>() {
 
             Node<T> node = first;
@@ -126,8 +127,10 @@ public class DynamicLinkedList<T> implements Iterable<T> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
+                synchronized (DynamicLinkedList.this) {
+                    if (expectedModCount != modCount) {
+                        throw new ConcurrentModificationException();
+                    }
                 }
                 T result = node.value;
                 node = node.next;

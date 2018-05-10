@@ -60,19 +60,23 @@ public class DynamicList<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return (position < size);
+                synchronized (DynamicList.this) {
+                    return (position < size);
+                }
             }
 
             @SuppressWarnings("unchecked")
             @Override
-            public synchronized T next() {
+            public T next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
+                synchronized (DynamicList.this) {
+                    if (expectedModCount != modCount) {
+                        throw new ConcurrentModificationException();
+                    }
+                    return (T) container[position++];
                 }
-                return (T) container[position++];
             }
         };
     }
