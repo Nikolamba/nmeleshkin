@@ -28,10 +28,10 @@ public class Lock {
 
     public synchronized void unlock() {
         if (this.acquiredThread != Thread.currentThread()) {
-            throw new UnsupportedOperationException();
+            throw new IllegalMonitorStateException();
         }
         this.acquiredThread = null;
         this.locked = false;
-        notify();
+        notifyAll();
     }
 }
