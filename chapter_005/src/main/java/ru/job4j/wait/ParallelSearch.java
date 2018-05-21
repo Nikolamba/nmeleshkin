@@ -6,8 +6,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.*;
 
 /**
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
@@ -20,8 +19,8 @@ public class ParallelSearch {
     private final List<String> exts;
 
     private volatile boolean finish = false;
-    private final Queue<String> files = new ConcurrentLinkedQueue<>();
-    private final List<String> paths = new CopyOnWriteArrayList<>();
+    private final LinkedBlockingQueue<String> files = new LinkedBlockingQueue<>();
+    private final Queue<String> paths = new ConcurrentLinkedQueue<>();
 
     ParallelSearch(String root, String text, List<String> exts) {
         this.root = root;
@@ -29,7 +28,7 @@ public class ParallelSearch {
         this.exts = exts;
     }
 
-    public List<String> result() {
+    public Queue<String> result() {
         return this.paths;
     }
 
@@ -50,18 +49,13 @@ public class ParallelSearch {
 
         Thread read = new Thread(() -> {
             while (true) {
-                synchronized (ParallelSearch.this) {
-                    if (finish && files.isEmpty()) {
-                        break;
-                    }
-                    while (files.isEmpty()) {
-                        try {
-                            ParallelSearch.this.wait();
-                        } catch (InterruptedException ie) {
-                            ie.printStackTrace();
-                        }
-                    }
-                    readFile(files.poll());
+                if (finish && files.isEmpty()) {
+                    break;
+                }
+                try {
+                    readFile(files.poll(50L, TimeUnit.MILLISECONDS));
+                } catch (InterruptedException | IOException exc) {
+                    exc.printStackTrace();
                 }
             }
         });
@@ -70,19 +64,25 @@ public class ParallelSearch {
         search.join(); read.join();
     }
 
-    private void readFile(String name) {
+    private void readFile(String name) throws IOException {
+        BufferedReader reader = null;
+        String buffer;
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(name));
-            String buffer;
+            reader = new BufferedReader(new FileReader(name));
             while ((buffer = reader.readLine()) != null) {
                 //System.out.println(buffer);
                 if (buffer.contains(text)) {
-                    paths.add(name);
+                    paths.offer(name);
                     break;
                 }
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+
         }
     }
 
@@ -112,9 +112,6 @@ public class ParallelSearch {
             Path name = file.getFileName();
             if (this.matcher.matches(name)) {
                 files.offer(file.toString());
-                synchronized (ParallelSearch.this) {
-                    ParallelSearch.this.notify();
-                }
             }
             return FileVisitResult.CONTINUE;
         }

@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
 
 import static org.junit.Assert.*;
 
@@ -21,9 +22,9 @@ public class ParallelSearchTest {
         List<String> exts = new ArrayList<>(Arrays.asList(".rtf", ".txt"));
         ParallelSearch search = new ParallelSearch(root, text, exts);
         search.init();
-        List<String> list = search.result();
-        for (String str : list) {
-            System.out.println(str);
+        Queue<String> list = search.result();
+        while (!list.isEmpty()){
+            System.out.println(list.poll());
         }
     }
 }
