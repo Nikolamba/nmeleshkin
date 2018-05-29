@@ -4,26 +4,20 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
-
 /**
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
  * @version 0.1
  */
-public class BombermanTest {
-
-    private Bomberman bomberman = new Bomberman();
+public class BoardTest {
 
     @Test
     public void testBomberman() throws InterruptedException {
-        this.bomberman.getCell(1,2).lock();
-        this.bomberman.getDirectionsHero().addAll(Arrays.asList(Direction.DOWN, Direction.DOWN,
+        Menu bombermanGame = new Menu(new Board(8));
+        bombermanGame.getDirectionsHero().addAll(Arrays.asList(Direction.DOWN, Direction.DOWN,
                 Direction.LEFT, Direction.RIGHT, Direction.RIGHT, Direction.UP, Direction.RIGHT,
                 Direction.DOWN, Direction.DOWN, Direction.UP, Direction.RIGHT));
-        bomberman.init();
-
-        bomberman.getHero().join();
-
+        bombermanGame.getBoard().getCell(2, 2).lock();
+        bombermanGame.init();
     }
 
 }

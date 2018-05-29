@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Monster extends BombermanHeroes {
 
-    public Monster(ReentrantLock[][] board, Point startPoint, Queue<Direction> directions) {
-        super(board, startPoint, directions);
+    public Monster(Point startPoint) {
+        super(startPoint);
     }
 }
