@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  * @version 0.1
  */
 public class TrackerTest {
-    private Tracker tracker = new Tracker();
+    private Tracker tracker = new Tracker("jdbc:postgresql://localhost:5432/tracker", "postgres", "123456");
 
     @Test
     public void add() {

@@ -18,6 +18,7 @@ import static org.junit.Assert.*;
 public class ValidateInputTest {
     private ByteArrayOutputStream out = new ByteArrayOutputStream();
     private PrintStream stdOut = System.out;
+    private Tracker tracker = new Tracker("jdbc:postgresql://localhost:5432/tracker", "postgres", "123456");
 
     @Before
     public void loadOut() {
@@ -33,7 +34,7 @@ public class ValidateInputTest {
     public void whenInvalidInputString() {
         String[] str = new String[] {"invalid", "6"};
         Input input = new ValidateInput(new StubInput(str));
-        new StartUI(input, new Tracker()).init();
+        new StartUI(input, tracker).init();
         assertThat(out.toString(), containsString("Введите корректные данные"));
     }
 
@@ -41,7 +42,7 @@ public class ValidateInputTest {
     public void whenInvalidInputNumber() {
         String[] str = new String[] {"20", "6"};
         Input input = new ValidateInput(new StubInput(str));
-        new StartUI(input, new Tracker()).init();
+        new StartUI(input, tracker).init();
         assertThat(out.toString(), containsString("Выберите доступный пункт меню"));
     }
 
@@ -49,7 +50,7 @@ public class ValidateInputTest {
     public void whenValidateInput() {
         String[] str = new String[] {"1", "6"};
         Input input = new ValidateInput(new StubInput(str));
-        new StartUI(input, new Tracker()).init();
+        new StartUI(input, tracker).init();
         assertThat(out.toString(), containsString("Список заявок пуст"));
     }
 }

@@ -52,6 +52,15 @@ public class StartUI {
      * @param args аргументы командной строки6
      */
     public static void main(String[] args) {
-        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
+        String databaseURL = "jdbc:postgresql://localhost:5432/tracker";
+        String userName = "postgres";
+        String userPass = "123456";
+
+        try (Tracker tracker = new Tracker(databaseURL, userName, userPass)) {
+            new StartUI(new ValidateInput(new ConsoleInput()), tracker).init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

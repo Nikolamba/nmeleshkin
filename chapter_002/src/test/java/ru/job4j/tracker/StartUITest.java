@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class StartUITest {
     private final static PrintStream STDOUT = System.out;
     private final static ByteArrayOutputStream OUT = new ByteArrayOutputStream();
-    private Tracker tracker = new Tracker();
+    private Tracker tracker = new Tracker("jdbc:postgresql://localhost:5432/tracker", "postgres", "123456");
 
     private void loadOut() {
         System.setOut(new PrintStream(OUT));
