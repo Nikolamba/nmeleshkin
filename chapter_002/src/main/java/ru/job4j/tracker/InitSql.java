@@ -19,15 +19,15 @@ public class InitSql {
         try {
             conn = DriverManager.getConnection(url, userName, userPass);
             DatabaseMetaData dm = conn.getMetaData();
-            ResultSet rs = dm.getTables(null, null, "Items", null);
-            if(!rs.next()) {
+            ResultSet rs = dm.getTables(null, null, "items", null);
+            if (!rs.next()) {
                 st  = conn.createStatement();
-                st.execute("Create table Items (" +
-                        "id character(20) primary key," +
-                        "name character(100)," +
-                        "description character(500)," +
-                        "created bigint" +
-                        ");");
+                st.execute("Create table Items ("
+                        + "id character(20) primary key,"
+                        + "name character(100),"
+                        + "description character(500),"
+                        + "created bigint"
+                        + ");");
             }
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -70,7 +70,7 @@ public class InitSql {
         try {
             st = conn.createStatement();
             rs = st.executeQuery("select * from Items;");
-            while(rs.next()) {
+            while (rs.next()) {
                 resultList.add(this.createItem(rs));
             }
         } catch (SQLException e) {
@@ -116,12 +116,19 @@ public class InitSql {
 
     public void close() throws Exception {
         this.conn.close();
-        this.pst.close();
-        this.st.close();
-        this.rs.close();
+
+        if (this.rs != null) {
+            this.rs.close();
+        }
+        if (this.pst != null) {
+            this.pst.close();
+        }
+        if (this.st != null) {
+            this.st.close();
+        }
     }
 
-    private Item createItem(ResultSet rs) throws SQLException{
+    private Item createItem(ResultSet rs) throws SQLException {
         return new Item(rs.getString("id"), rs.getString("name"),
                 rs.getString("description"), rs.getLong("created"));
     }

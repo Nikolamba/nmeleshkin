@@ -8,7 +8,7 @@ import java.util.Random;
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
  * @version 0.1
  */
-public class Tracker implements AutoCloseable{
+public class Tracker implements AutoCloseable {
     private final static Random RANDOM = new Random();
     private InitSql sqlStorage;
 
