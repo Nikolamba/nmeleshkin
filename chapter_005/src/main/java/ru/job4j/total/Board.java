@@ -22,24 +22,15 @@ public class Board {
         }
     }
 
-    public boolean move (Point sourse, Point dest) {
+    public boolean move(Point sourse, Point dest) {
         boolean result = false;
 
-        if (this.board[sourse.x][sourse.y].isLocked()
-                || dest.x >= this.board.length  || dest.y >= this.board.length
-                || dest.x < 0 || dest.y < 0) {
-            System.out.println("Невозможно пойти");
-        }
-        else {
+        if (!this.board[sourse.x][sourse.y].isLocked()) {
             try {
                 if (this.board[dest.x][dest.y].tryLock()
                         || this.board[dest.x][dest.y].tryLock(500, TimeUnit.MILLISECONDS)) {
-                    System.out.println("Координаты героя: " + dest.x + " " + dest.y);
-                    this.board[dest.x][dest.y].unlock();
                     result = true;
-                }
-                else {
-                    System.out.println("Клетка занята");
+                    this.board[dest.x][dest.y].unlock();
                 }
             } catch (InterruptedException ie) {
                 ie.printStackTrace();

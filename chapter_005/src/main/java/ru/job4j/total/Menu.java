@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.Queue;
 
-enum Direction {UP, DOWN, LEFT, RIGHT}
+enum Direction { UP, DOWN, LEFT, RIGHT }
 
 public class Menu {
     private final static Point HERO_START_POINT = new Point(0, 0);
@@ -19,7 +19,7 @@ public class Menu {
         this.hero = new Hero(HERO_START_POINT);
     }
 
-   public void init() throws InterruptedException{
+   public void init() throws InterruptedException {
         this.board.move(HERO_START_POINT, HERO_START_POINT);
 
        Thread heroThread = new Thread(() -> {
@@ -47,6 +47,7 @@ public class Menu {
             case RIGHT: result.setLocation(1, 0); break;
             case DOWN: result.setLocation(0, 1); break;
             case UP: result.setLocation(0, -1);
+            default: result.setLocation(0, 0);
         }
         result.setLocation(this.hero.getPoint().x + result.x, this.hero.getPoint().y + result.y);
         return result;

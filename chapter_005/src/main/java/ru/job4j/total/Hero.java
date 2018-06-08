@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Hero extends BombermanHeroes {
 
-    Hero(Point startPoint){
+    Hero(Point startPoint) {
         super(startPoint);
     }
 
