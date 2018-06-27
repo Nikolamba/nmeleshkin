@@ -16,7 +16,6 @@ public class BoardTest {
         bombermanGame.getDirectionsHero().addAll(Arrays.asList(Direction.DOWN, Direction.DOWN,
                 Direction.LEFT, Direction.RIGHT, Direction.RIGHT, Direction.UP, Direction.RIGHT,
                 Direction.DOWN, Direction.DOWN, Direction.UP, Direction.RIGHT));
-        bombermanGame.getBoard().getCell(2, 2).lock();
         bombermanGame.init();
     }
 

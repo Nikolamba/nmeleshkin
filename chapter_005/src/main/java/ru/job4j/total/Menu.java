@@ -20,9 +20,10 @@ public class Menu {
     }
 
    public void init() throws InterruptedException {
-        this.board.move(HERO_START_POINT, HERO_START_POINT);
 
        Thread heroThread = new Thread(() -> {
+           this.board.move(HERO_START_POINT, HERO_START_POINT);
+
            while (!directionsHero.isEmpty()) {
                Point destPoint = getDestPoint(directionsHero.poll());
 
@@ -46,7 +47,7 @@ public class Menu {
             case LEFT: result.setLocation(-1, 0); break;
             case RIGHT: result.setLocation(1, 0); break;
             case DOWN: result.setLocation(0, 1); break;
-            case UP: result.setLocation(0, -1);
+            case UP: result.setLocation(0, -1); break;
             default: result.setLocation(0, 0);
         }
         result.setLocation(this.hero.getPoint().x + result.x, this.hero.getPoint().y + result.y);

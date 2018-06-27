@@ -25,21 +25,22 @@ public class Board {
     public boolean move(Point sourse, Point dest) {
         boolean result = false;
 
-        if (!this.board[sourse.x][sourse.y].isLocked()) {
+        if (dest.x < 0 || dest.y < 0 || dest.x > this.board.length || dest.y > this.board.length) {
+            return false;
+        }
+
+        if (!this.board[dest.x][dest.y].isLocked()) {
             try {
-                if (this.board[dest.x][dest.y].tryLock()
-                        || this.board[dest.x][dest.y].tryLock(500, TimeUnit.MILLISECONDS)) {
+                if (this.board[dest.x][dest.y].tryLock(500, TimeUnit.MILLISECONDS)) {
                     result = true;
-                    this.board[dest.x][dest.y].unlock();
+                    if (sourse != dest) {
+                        this.board[sourse.x][sourse.y].unlock();
+                    }
                 }
             } catch (InterruptedException ie) {
                 ie.printStackTrace();
             }
         }
         return result;
-    }
-
-    public ReentrantLock getCell(int x, int y) {
-        return this.board[x][y];
     }
 }
