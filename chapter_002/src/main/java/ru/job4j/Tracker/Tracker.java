@@ -1,7 +1,6 @@
 package ru.job4j.tracker;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Класс учета заявок
@@ -9,7 +8,6 @@ import java.util.Random;
  * @version 0.1
  */
 public class Tracker implements AutoCloseable {
-    private final static Random RANDOM = new Random();
     private InitSql sqlStorage;
 
     Tracker(String databaseURL, String userName, String userPass) {
@@ -17,13 +15,11 @@ public class Tracker implements AutoCloseable {
     }
 
     public Item add(Item item) {
-        item.setId(this.generateID());
         sqlStorage.add(item);
         return item;
     }
 
     public void replace(String id, Item item) {
-        item.setId(this.generateID());
         sqlStorage.replace(id, item);
     }
 
@@ -43,9 +39,7 @@ public class Tracker implements AutoCloseable {
         return sqlStorage.findByName(key);
     }
 
-    private String generateID() {
-        return String.valueOf(System.currentTimeMillis() + RANDOM.nextInt());
-    }
+
 
     @Override
     public void close() throws Exception {

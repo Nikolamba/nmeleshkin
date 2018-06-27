@@ -3,6 +3,7 @@ package ru.job4j.tracker;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
@@ -11,9 +12,6 @@ import java.util.List;
 public class InitSql {
 
     private Connection conn;
-    private PreparedStatement pst;
-    private Statement st;
-    private ResultSet rs;
 
     InitSql(String url, String userName, String userPass) {
         try {
@@ -21,7 +19,7 @@ public class InitSql {
             DatabaseMetaData dm = conn.getMetaData();
             ResultSet rs = dm.getTables(null, null, "items", null);
             if (!rs.next()) {
-                st  = conn.createStatement();
+                Statement st  = conn.createStatement();
                 st.execute("Create table Items ("
                         + "id character(20) primary key,"
                         + "name character(100),"
@@ -35,10 +33,8 @@ public class InitSql {
     }
 
     public void add(Item item) {
-
-        try {
-            pst = conn.prepareStatement("Insert into Items VALUES (?, ?, ?, ?);");
-            pst.setString(1, item.getId());
+        try (PreparedStatement pst = conn.prepareStatement("Insert into items VALUES (? ,?, ?, ?);");) {
+            pst.setString(1, this.generateID());
             pst.setString(2, item.getName());
             pst.setString(3, item.getDescription());
             pst.setLong(4, item.getCreated());
@@ -49,9 +45,7 @@ public class InitSql {
     }
 
     public void delete(String id) {
-
-        try {
-            pst = conn.prepareStatement("delete from Items where id = ?;");
+        try (PreparedStatement pst = conn.prepareStatement("delete from Items where id = ?;");) {
             pst.setString(1, id);
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -67,46 +61,45 @@ public class InitSql {
     public List<Item> findAll() {
         List<Item> resultList = new ArrayList<>();
 
-        try {
-            st = conn.createStatement();
-            rs = st.executeQuery("select * from Items;");
+        try (Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery("select * from Items;")) {
             while (rs.next()) {
                 resultList.add(this.createItem(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return resultList;
     }
 
     public Item findById(String id) {
         Item resultItem = null;
 
-        try {
-            pst = conn.prepareStatement("select * from Items where id = ?;");
+        try (PreparedStatement pst = conn.prepareStatement("select * from Items where id = ?;")) {
+
             pst.setString(1, id);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 resultItem = this.createItem(rs);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return resultItem;
     }
 
     public List<Item> findByName(String key) {
         List<Item> resultList = new ArrayList<>();
 
-        try {
-            pst = conn.prepareStatement("select * from Items where name = ?;");
+        try (PreparedStatement pst = conn.prepareStatement("select * from Items where name = ?;")) {
+
             pst.setString(1, key);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 resultList.add(this.createItem(rs));
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -116,20 +109,15 @@ public class InitSql {
 
     public void close() throws Exception {
         this.conn.close();
-
-        if (this.rs != null) {
-            this.rs.close();
-        }
-        if (this.pst != null) {
-            this.pst.close();
-        }
-        if (this.st != null) {
-            this.st.close();
-        }
     }
 
     private Item createItem(ResultSet rs) throws SQLException {
         return new Item(rs.getString("id"), rs.getString("name"),
                 rs.getString("description"), rs.getLong("created"));
+    }
+
+    private String generateID() {
+        Random rand = new Random();
+        return String.valueOf(System.currentTimeMillis() + rand.nextInt());
     }
 }
