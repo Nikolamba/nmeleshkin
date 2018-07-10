@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
  * @version 0.1
  */
-public class Vacancy {
-
+class Vacancy {
     private String url;
     private String desc;
     private LocalDateTime data;
