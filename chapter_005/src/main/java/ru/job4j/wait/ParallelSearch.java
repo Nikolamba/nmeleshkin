@@ -48,12 +48,12 @@ public class ParallelSearch {
         };
 
         Thread read = new Thread(() -> {
-            while (true) {
-                if (finish && files.isEmpty()) {
-                    break;
-                }
+            while (!(finish && files.isEmpty())) {
                 try {
-                    readFile(files.poll(50L, TimeUnit.MILLISECONDS));
+                    String file = this.files.poll(50L, TimeUnit.MILLISECONDS);
+                    if (file != null) {
+                        readFile(file);
+                    }
                 } catch (InterruptedException | IOException exc) {
                     exc.printStackTrace();
                 }

@@ -23,7 +23,7 @@ public class ParallelSearchTest {
         ParallelSearch search = new ParallelSearch(root, text, exts);
         search.init();
         Queue<String> list = search.result();
-        while (!list.isEmpty()){
+        while (!list.isEmpty()) {
             System.out.println(list.poll());
         }
     }
