@@ -2,6 +2,9 @@ package ru.job4j.deadlock;
 
 import org.junit.Test;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.ReentrantLock;
+
 import static org.junit.Assert.*;
 
 /**
@@ -9,28 +12,34 @@ import static org.junit.Assert.*;
  * @version 0.1
  */
 public class DeadLockTest {
-    private Account acc1 = new Account(100);
-    private Account acc2 = new Account(100);
+    private ReentrantLock lockFrom = new ReentrantLock(true);
+    private ReentrantLock lockTo = new ReentrantLock(true);
+    private final CountDownLatch start = new CountDownLatch(2);
 
     @Test
     public void whenTransferOneToTwoAndTwoToOneShouldGetDeadLock() throws InterruptedException {
         Thread fromTo = new Thread(() -> {
-                try {
-                    acc1.transfer(acc2, 50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
+            this.action();
+        });
         Thread toFrom = new Thread(() -> {
-                try {
-                    acc2.transfer(acc1, 50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
+            this.action();
+        });
 
         fromTo.start(); toFrom.start();
         fromTo.join(); toFrom.join();
+    }
+
+    private void action() {
+        try {
+            start.await();
+            start.countDown();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        lockTo.lock();
+        lockFrom.lock();
+        lockFrom.unlock();
+        lockTo.unlock();
     }
 
 }
