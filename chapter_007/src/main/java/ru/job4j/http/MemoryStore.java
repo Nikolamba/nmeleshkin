@@ -29,7 +29,7 @@ public class MemoryStore implements Store {
 
     @Override
     public void update(int id, String newName) {
-        this.userStore.get(id).setName(newName);
+        this.findById(id).setName(newName);
     }
 
     @Override

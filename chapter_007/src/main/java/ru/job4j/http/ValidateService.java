@@ -13,7 +13,11 @@ class ValidateService {
     private static ValidateService instance = new ValidateService();
     private final Store store = MemoryStore.getInstance();
 
-    private ValidateService() { }
+    private ValidateService() {
+        store.add(new User(1, "Nikolay"));
+        store.add(new User(2, "Petr"));
+        store.add(new User(3, "Misha"));
+    }
 
     static ValidateService getInstance() {
         return instance;
@@ -59,7 +63,7 @@ class ValidateService {
         return result;
     }
 
-    private User findById(int id) {
+    User findById(int id) {
         return store.findById(id);
     }
 

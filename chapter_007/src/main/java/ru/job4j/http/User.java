@@ -25,25 +25,26 @@ public class User {
         this.name = name;
         this.login = login;
         this.email = email;
+        createDate = LocalDate.now();
     }
 
     int getId() {
         return id;
     }
 
-    private String getName() {
+    String getName() {
         return name;
     }
 
-    private String getLogin() {
+    String getLogin() {
         return login;
     }
 
-    private String getEmail() {
+    String getEmail() {
         return email;
     }
 
-    private LocalDate getCreateDate() {
+    LocalDate getCreateDate() {
         return createDate;
     }
 
