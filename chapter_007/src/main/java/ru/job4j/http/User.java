@@ -28,23 +28,23 @@ public class User {
         createDate = LocalDate.now();
     }
 
-    int getId() {
+    public int getId() {
         return id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    String getLogin() {
+    public String getLogin() {
         return login;
     }
 
-    String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    LocalDate getCreateDate() {
+    public LocalDate getCreateDate() {
         return createDate;
     }
 

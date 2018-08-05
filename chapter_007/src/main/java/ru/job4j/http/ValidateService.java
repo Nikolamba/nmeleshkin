@@ -8,7 +8,7 @@ import java.util.List;
  * @version $Id$
  * @since 0.1
  */
-class ValidateService {
+public class ValidateService {
 
     private static ValidateService instance = new ValidateService();
     private final Store store = MemoryStore.getInstance();
@@ -19,7 +19,7 @@ class ValidateService {
         store.add(new User(3, "Misha"));
     }
 
-    static ValidateService getInstance() {
+    public static ValidateService getInstance() {
         return instance;
     }
 
@@ -63,11 +63,11 @@ class ValidateService {
         return result;
     }
 
-    User findById(int id) {
+    public User findById(int id) {
         return store.findById(id);
     }
 
-    List<User> findAll() {
+    public List<User> findAll() {
         return store.findAll();
     }
 
