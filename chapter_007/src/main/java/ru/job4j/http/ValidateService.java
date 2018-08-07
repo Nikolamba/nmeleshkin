@@ -11,8 +11,9 @@ import java.util.List;
 public class ValidateService {
 
     private static ValidateService instance = new ValidateService();
-    private final Store store = MemoryStore.getInstance();
+    private final Store store = DbStore.getInstance();
 
+    @SuppressWarnings("unchecked")
     private ValidateService() {
         store.add(new User(1, "Nikolay"));
         store.add(new User(2, "Petr"));
@@ -23,6 +24,7 @@ public class ValidateService {
         return instance;
     }
 
+    @SuppressWarnings("unchecked")
     boolean add(HttpServletRequest request) {
         boolean result = false;
         if (validateField(request, "id")
@@ -51,6 +53,7 @@ public class ValidateService {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     boolean delete(HttpServletRequest request) {
         boolean result = false;
         if (validateField(request, "id")) {
@@ -64,9 +67,10 @@ public class ValidateService {
     }
 
     public User findById(int id) {
-        return store.findById(id);
+        return (User) store.findById(id);
     }
 
+    @SuppressWarnings("unchecked")
     public List<User> findAll() {
         return store.findAll();
     }

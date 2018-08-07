@@ -9,7 +9,7 @@
     <% String idUser = request.getParameter("id"); %>
     <% User user = ValidateService.getInstance().findById(Integer.valueOf(idUser)); %>
     <form action="<%=request.getContextPath()%>/edit" method="post">
-        ID : <input type = "text" name = "id" value="<%=user.getId()%>"/>
+        id : <input type = "text" name = "id" value="<%=user.getId()%>"/>
         Name : <input type = "text" name = "name" value = "<%=user.getName()%>"/>
         Login : <input type = "text" name = "login" value = "<%=user.getLogin()%>"/>
         EMail : <input type = "text" name = "email" value = "<%=user.getEmail()%>"/>

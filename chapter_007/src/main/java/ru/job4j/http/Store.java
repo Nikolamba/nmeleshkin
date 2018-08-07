@@ -7,10 +7,10 @@ import java.util.List;
  * @version $Id$
  * @since 0.1
  */
-public interface Store {
-    void add(User user);
+public interface Store<T> {
+    void add(T user);
     void update(int id, String newName);
-    void delete(User user);
-    List<User> findAll();
-    User findById(int id);
+    void delete(T user);
+    List<T> findAll();
+    T findById(int id);
 }

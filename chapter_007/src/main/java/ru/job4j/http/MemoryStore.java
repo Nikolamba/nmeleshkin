@@ -9,7 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @version $Id$
  * @since 0.1
  */
-public class MemoryStore implements Store {
+public class MemoryStore implements Store<User> {
 
     private CopyOnWriteArrayList<User> userStore;
     private static MemoryStore instance = new MemoryStore();
