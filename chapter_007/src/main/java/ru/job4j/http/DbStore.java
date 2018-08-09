@@ -14,7 +14,7 @@ import java.util.List;
 public class DbStore implements Store<User> {
 
     private static final BasicDataSource SOURCE = new BasicDataSource();
-    private static DbStore instance = new DbStore();
+    private static final DbStore INSTANCE = new DbStore();
 
     private DbStore() {
         try {
@@ -29,9 +29,9 @@ public class DbStore implements Store<User> {
         SOURCE.setMinIdle(5);
         SOURCE.setMaxIdle(10);
         SOURCE.setMaxOpenPreparedStatements(100);
-        try (Connection connection = SOURCE.getConnection()) {
-            DatabaseMetaData dm = connection.getMetaData();
-            ResultSet rs = dm.getTables(null, null, "users", null);
+        try (Connection connection = SOURCE.getConnection();
+            ResultSet rs = connection.getMetaData().getTables(
+                    null, null, "users", null)) {
             if (!rs.next()) {
                 Statement st = connection.createStatement();
                 st.execute("create table users ("
@@ -42,26 +42,25 @@ public class DbStore implements Store<User> {
                         + "created date"
                         + ");");
             }
-            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     static DbStore getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     @Override
     public void add(User user) {
         try (Connection connection = SOURCE.getConnection();
-             Statement st = connection.prepareStatement("Insert into users values (?, ?, ?, ?, ?);")) {
-            ((PreparedStatement) st).setInt(1, user.getId());
-            ((PreparedStatement) st).setString(2, user.getName());
-            ((PreparedStatement) st).setString(3, user.getLogin());
-            ((PreparedStatement) st).setString(4, user.getEmail());
-            ((PreparedStatement) st).setDate(5, java.sql.Date.valueOf(user.getCreateDate()));
-            ((PreparedStatement) st).execute();
+             PreparedStatement st = connection.prepareStatement("Insert into users values (?, ?, ?, ?, ?);")) {
+            st.setInt(1, user.getId());
+            st.setString(2, user.getName());
+            st.setString(3, user.getLogin());
+            st.setString(4, user.getEmail());
+            st.setDate(5, java.sql.Date.valueOf(user.getCreateDate()));
+            st.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,10 +69,10 @@ public class DbStore implements Store<User> {
     @Override
     public void update(int id, String newName) {
         try (Connection connection = SOURCE.getConnection();
-            Statement st = connection.prepareStatement("update users set name = ? where id = ?;")) {
-            ((PreparedStatement) st).setString(1, newName);
-            ((PreparedStatement) st).setInt(2, id);
-            ((PreparedStatement) st).executeUpdate();
+            PreparedStatement st = connection.prepareStatement("update users set name = ? where id = ?;")) {
+            st.setString(1, newName);
+            st.setInt(2, id);
+            st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -82,9 +81,9 @@ public class DbStore implements Store<User> {
     @Override
     public void delete(User user) {
         try (Connection connection = SOURCE.getConnection();
-            Statement st = connection.prepareStatement("delete from users where id = ?;")) {
-            ((PreparedStatement) st).setInt(1, user.getId());
-            ((PreparedStatement) st).execute();
+            PreparedStatement st = connection.prepareStatement("delete from users where id = ?;")) {
+            st.setInt(1, user.getId());
+            st.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -110,8 +109,8 @@ public class DbStore implements Store<User> {
     public User findById(int id) {
         User result = null;
         try (Connection connection = SOURCE.getConnection();
-            Statement st = connection.prepareStatement("select * from users where id = ?;")) {
-            ((PreparedStatement) st).setInt(1, id);
+            PreparedStatement st = connection.prepareStatement("select * from users where id = ?;")) {
+            st.setInt(1, id);
             ResultSet rs = ((PreparedStatement) st).executeQuery();
             if (rs.next()) {
                 result = new User(rs.getInt("id"), rs.getString("name"),

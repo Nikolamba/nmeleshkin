@@ -11,15 +11,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MemoryStore implements Store<User> {
 
-    private CopyOnWriteArrayList<User> userStore;
-    private static MemoryStore instance = new MemoryStore();
+    private final CopyOnWriteArrayList<User> userStore;
+    private final static MemoryStore INSTANCE = new MemoryStore();
 
     private MemoryStore() {
         userStore = new CopyOnWriteArrayList<>();
     }
 
     static MemoryStore getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ValidateService {
 
-    private static ValidateService instance = new ValidateService();
+    private final static ValidateService INSTANCE = new ValidateService();
     private final Store store = DbStore.getInstance();
 
     @SuppressWarnings("unchecked")
@@ -21,7 +21,7 @@ public class ValidateService {
     }
 
     public static ValidateService getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     @SuppressWarnings("unchecked")
