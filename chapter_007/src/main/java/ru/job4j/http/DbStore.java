@@ -34,13 +34,7 @@ public class DbStore implements Store<User> {
                     null, null, "users", null)) {
             if (!rs.next()) {
                 Statement st = connection.createStatement();
-                st.execute("create table users ("
-                        + "id integer primary key,"
-                        + "name character(50),"
-                        + "login character(100),"
-                        + "email character(100),"
-                        + "created date"
-                        + ");");
+                st.execute(this.createTableUsers());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,12 +48,14 @@ public class DbStore implements Store<User> {
     @Override
     public void add(User user) {
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement st = connection.prepareStatement("Insert into users values (?, ?, ?, ?, ?);")) {
+             PreparedStatement st = connection.prepareStatement("Insert into users values (?, ?, ?, ?, ?, ?, ?);")) {
             st.setInt(1, user.getId());
             st.setString(2, user.getName());
             st.setString(3, user.getLogin());
-            st.setString(4, user.getEmail());
-            st.setDate(5, java.sql.Date.valueOf(user.getCreateDate()));
+            st.setString(4, user.getPassword());
+            st.setString(5, user.getEmail());
+            st.setDate(6, java.sql.Date.valueOf(user.getCreateDate()));
+            st.setString(7, user.getRole().getName());
             st.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,11 +63,19 @@ public class DbStore implements Store<User> {
     }
 
     @Override
-    public void update(int id, String newName) {
+    public void update(int id, String newName, String newLogin, String newEmail, String newRole) {
         try (Connection connection = SOURCE.getConnection();
-            PreparedStatement st = connection.prepareStatement("update users set name = ? where id = ?;")) {
+            PreparedStatement st = connection.prepareStatement("update users set "
+                    + "name = ?, "
+                    + "login = ?,"
+                    + "email = ?,"
+                    + "role = ?"
+                    + "where id = ?;")) {
             st.setString(1, newName);
-            st.setInt(2, id);
+            st.setString(2, newLogin);
+            st.setString(3, newEmail);
+            st.setString(4, newRole);
+            st.setInt(5, id);
             st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +101,8 @@ public class DbStore implements Store<User> {
             ResultSet rs = st.executeQuery("select * from users;");
             while (rs.next()) {
                 resultList.add(new User(rs.getInt("id"), rs.getString("name"),
-                        rs.getString("login"), rs.getString("email")));
+                        rs.getString("login"), rs.getString("password"),
+                        rs.getString("email"), new Role(rs.getString("role").trim())));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,14 +116,45 @@ public class DbStore implements Store<User> {
         try (Connection connection = SOURCE.getConnection();
             PreparedStatement st = connection.prepareStatement("select * from users where id = ?;")) {
             st.setInt(1, id);
-            ResultSet rs = ((PreparedStatement) st).executeQuery();
+            ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 result = new User(rs.getInt("id"), rs.getString("name"),
-                        rs.getString("login"), rs.getString("email"));
+                        rs.getString("login"), rs.getString("password"),
+                        rs.getString("email"), new Role(rs.getString("role").trim()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        User result = null;
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement st = connection.prepareStatement("select * from users where login = ?;")) {
+            st.setString(1, login);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                result = new User(rs.getInt("id"), rs.getString("name"),
+                        rs.getString("login"), rs.getString("password"),
+                        rs.getString("email"), new Role(rs.getString("role").trim()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private String createTableUsers() {
+        return "create table users ("
+                + "id integer primary key,"
+                + "name character(50),"
+                + "login character(100),"
+                + "password character(100),"
+                + "email character(100),"
+                + "created date,"
+                + "role character(100)"
+                + ");";
     }
 }

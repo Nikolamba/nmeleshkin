@@ -9,8 +9,9 @@ import java.util.List;
  */
 public interface Store<T> {
     void add(T user);
-    void update(int id, String newName);
+    void update(int id, String newName, String login, String email, String autorization);
     void delete(T user);
     List<T> findAll();
     T findById(int id);
+    T findByLogin(String login);
 }

@@ -9,6 +9,10 @@
         Name : <input type = "text" name = "name" value = "${user.name}"/>
         Login : <input type = "text" name = "login" value = "${user.login}"/>
         EMail : <input type = "text" name = "email" value = "${user.email}"/>
+        Autorization : <select name = "autorization">
+                    <option value="administrator">administrator</option>
+                    <option value="user">user</option>
+                </select>
         <input type = "submit" value = "Edit user"/>
     </form>
 </body>

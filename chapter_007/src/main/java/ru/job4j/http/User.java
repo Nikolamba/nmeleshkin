@@ -11,21 +11,28 @@ public class User {
     private int id;
     private String name;
     private String login;
+    private String password;
     private String email;
     private LocalDate createDate;
+    private Role role;
 
     User(int id, String name) {
         this.id = id;
         this.name = name;
         createDate = LocalDate.now();
+        this.login = name;
+        this.password = "pass";
+        this.role = new Role("administrator");
     }
 
-    User(int id, String name, String login, String email) {
+    User(int id, String name, String login, String password, String email, Role role) {
         this.id = id;
         this.name = name;
         this.login = login;
+        this.password = password;
         this.email = email;
         createDate = LocalDate.now();
+        this.role = role;
     }
 
     public int getId() {
@@ -48,14 +55,22 @@ public class User {
         return createDate;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
     void setName(String name) {
         this.name = name;
     }
 
     @Override
     public String toString() {
-        return String.format("%s %s %s %s %s", this.getId(), this.getName(),
-                this.getLogin(), this.getEmail(), this.getCreateDate());
+        return String.format("%s %s %s %s %s %s", this.getId(), this.getName(),
+                this.getLogin(), this.getPassword(), this.getEmail(), this.getCreateDate());
 
     }
 }
