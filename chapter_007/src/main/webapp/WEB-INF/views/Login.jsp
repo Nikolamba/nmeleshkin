@@ -12,9 +12,9 @@
     <title>Login</title>
 </head>
 <body>
-<c:if test="${error != ''}">
+<c:if test="${applicationScope.error != ''}">
     <div style="background-color: red">
-        <c:out value="${error}"/>
+        <c:out value="${applicationScope.error}"/>
     </div>
 </c:if>
 <form action="${pageContext.servletContext.contextPath}/signin" method="post">

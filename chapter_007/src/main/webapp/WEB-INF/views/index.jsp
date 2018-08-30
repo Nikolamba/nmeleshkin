@@ -23,7 +23,7 @@
             <th>Role</th>
 
         </tr>
-        <c:forEach items="${users}" var="user">
+        <c:forEach items="${requestScope.users}" var="user">
             <tr>
                 <td><c:out value="${user.id}"></c:out> </td>
                 <td><c:out value="${user.name}"></c:out></td>
