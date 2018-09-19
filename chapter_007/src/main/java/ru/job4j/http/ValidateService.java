@@ -32,7 +32,9 @@ public class ValidateService {
                         request.getParameter("login"),
                         request.getParameter("password"),
                         request.getParameter("email"),
-                        new Role(request.getParameter("autorization"))
+                        new Role(request.getParameter("autorization")),
+                        request.getParameter("country"),
+                        request.getParameter("city")
                         ));
                 result = true;
             }
@@ -48,7 +50,8 @@ public class ValidateService {
             int id = Integer.valueOf(request.getParameter("id"));
             if (store.findById(id) != null) {
                 store.update(id, request.getParameter("name"), request.getParameter("login"),
-                        request.getParameter("email"), request.getParameter("autorization"));
+                        request.getParameter("email"), request.getParameter("autorization"),
+                        request.getParameter("country"), request.getParameter("city"));
                 result = true;
             }
         }

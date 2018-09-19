@@ -15,6 +15,8 @@ public class User {
     private String email;
     private LocalDate createDate;
     private Role role;
+    private String country;
+    private String city;
 
     User(int id, String name) {
         this.id = id;
@@ -25,7 +27,7 @@ public class User {
         this.role = new Role("administrator");
     }
 
-    User(int id, String name, String login, String password, String email, Role role) {
+    User(int id, String name, String login, String password, String email, Role role, String country, String city) {
         this.id = id;
         this.name = name;
         this.login = login;
@@ -33,6 +35,8 @@ public class User {
         this.email = email;
         createDate = LocalDate.now();
         this.role = role;
+        this.country = country;
+        this.city = city;
     }
 
     public int getId() {
@@ -61,6 +65,14 @@ public class User {
 
     public Role getRole() {
         return role;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     void setName(String name) {

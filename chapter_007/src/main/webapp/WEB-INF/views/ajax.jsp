@@ -42,17 +42,23 @@
                 type: 'POST',
                 url: '${pageContext.servletContext.contextPath}/ajax',
                 data: JSON.stringify(data),
-                dataType: 'html',
+                dataType: 'json',
                 contentType: "application/json; charset=UTF-8",
                 error: [function(xhr, status, error) {
                     alert(xhr.responseText + '|\n' + status + '|\n' +error);
                 }],
                 success: [function (response) {
-                    $('#table tr:last').after(response);
+                    var tableData = "<tr><td>" + response.name + "</td><td>" + response.lastname + "</td></tr>";
+                    $('#table tr:last').after(tableData);
                 }]
             });
         }
     </script>
+    <style>
+        #user_form {
+            margin: 0px 40% 0px 40%;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -60,7 +66,7 @@
     <p>This is some text.</p>
 </div>
 
-<form action="/action_page.php">
+<form id="user_form">
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" id="name" title="Enter user name">

@@ -1,0 +1,18 @@
+table {
+    margin-left: 200px;
+    margin-right: 200px;
+    caption-side: top;
+}
+h1 {
+    margin-left: 200px;
+    color: brown !important;
+}
+td, th {
+    padding: 10px;
+}
+th {
+    background-color: grey;
+}
+body {
+    background-color: #c4cbca !important;
+}

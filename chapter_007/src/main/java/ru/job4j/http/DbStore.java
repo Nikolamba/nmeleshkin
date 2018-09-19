@@ -48,7 +48,7 @@ public class DbStore implements Store<User> {
     @Override
     public void add(User user) {
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement st = connection.prepareStatement("Insert into users values (?, ?, ?, ?, ?, ?, ?);")) {
+             PreparedStatement st = connection.prepareStatement("Insert into users values (?, ?, ?, ?, ?, ?, ?, ?, ?);")) {
             st.setInt(1, user.getId());
             st.setString(2, user.getName());
             st.setString(3, user.getLogin());
@@ -56,6 +56,8 @@ public class DbStore implements Store<User> {
             st.setString(5, user.getEmail());
             st.setDate(6, java.sql.Date.valueOf(user.getCreateDate()));
             st.setString(7, user.getRole().getName());
+            st.setString(8, user.getCountry());
+            st.setString(9, user.getCity());
             st.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,19 +65,23 @@ public class DbStore implements Store<User> {
     }
 
     @Override
-    public void update(int id, String newName, String newLogin, String newEmail, String newRole) {
+    public void update(int id, String newName, String newLogin, String newEmail, String newRole, String newCountry, String newCity) {
         try (Connection connection = SOURCE.getConnection();
             PreparedStatement st = connection.prepareStatement("update users set "
                     + "name = ?, "
                     + "login = ?,"
                     + "email = ?,"
-                    + "role = ?"
+                    + "role = ?,"
+                    + "country = ?,"
+                    + "city = ?"
                     + "where id = ?;")) {
             st.setString(1, newName);
             st.setString(2, newLogin);
             st.setString(3, newEmail);
             st.setString(4, newRole);
-            st.setInt(5, id);
+            st.setString(5, newCountry);
+            st.setString(6, newCity);
+            st.setInt(7, id);
             st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,7 +108,8 @@ public class DbStore implements Store<User> {
             while (rs.next()) {
                 resultList.add(new User(rs.getInt("id"), rs.getString("name"),
                         rs.getString("login"), rs.getString("password"),
-                        rs.getString("email"), new Role(rs.getString("role").trim())));
+                        rs.getString("email"), new Role(rs.getString("role").trim()),
+                        rs.getString("country"), rs.getString("city")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,7 +127,8 @@ public class DbStore implements Store<User> {
             if (rs.next()) {
                 result = new User(rs.getInt("id"), rs.getString("name"),
                         rs.getString("login"), rs.getString("password"),
-                        rs.getString("email"), new Role(rs.getString("role").trim()));
+                        rs.getString("email"), new Role(rs.getString("role").trim()),
+                        rs.getString("country"), rs.getString("city"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -138,7 +146,8 @@ public class DbStore implements Store<User> {
             if (rs.next()) {
                 result = new User(rs.getInt("id"), rs.getString("name"),
                         rs.getString("login"), rs.getString("password"),
-                        rs.getString("email"), new Role(rs.getString("role").trim()));
+                        rs.getString("email"), new Role(rs.getString("role").trim()),
+                        rs.getString("country"), rs.getString("city"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -154,7 +163,9 @@ public class DbStore implements Store<User> {
                 + "password character(100),"
                 + "email character(100),"
                 + "created date,"
-                + "role character(100)"
+                + "role character(100),"
+                + "country character(100),"
+                + "city character(100)"
                 + ");";
     }
 }

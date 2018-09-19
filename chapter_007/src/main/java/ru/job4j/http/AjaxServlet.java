@@ -34,11 +34,7 @@ public class AjaxServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> map = mapper.readValue(sb.toString(), new TypeReference<Map<String, String>>() { });
         PrintWriter writer = resp.getWriter();
-        writer.append("<tr><td>");
-        writer.append(map.get("name"));
-        writer.append("</td><td>");
-        writer.append(map.get("lastname"));
-        writer.append("</td></tr>");
+        writer.append(mapper.writeValueAsString(map));
         writer.flush();
     }
 }
