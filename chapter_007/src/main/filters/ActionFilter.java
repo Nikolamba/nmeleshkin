@@ -1,5 +1,3 @@
-package ru.job4j.music;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

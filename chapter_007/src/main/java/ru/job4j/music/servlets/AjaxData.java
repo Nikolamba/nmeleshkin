@@ -1,6 +1,7 @@
 package ru.job4j.music.servlets;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import ru.job4j.music.LogicLayer;
 import ru.job4j.music.dao.DaoAdress;
 import ru.job4j.music.dao.DaoMusicType;
 import ru.job4j.music.dao.DaoRole;
@@ -21,23 +22,20 @@ import java.util.List;
  */
 public class AjaxData extends HttpServlet {
 
-    private final RepositoryUser repositoryUser = RepositoryUser.getInstance();
+    private final LogicLayer logicLayer = LogicLayer.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         PrintWriter writer = resp.getWriter();
-        if (req.getParameter("adress") != null) {
-            int adressId = Integer.valueOf(req.getParameter("adress"));
-            FullUser user = repositoryUser.findUserByAdress(DaoAdress.getInstance().findById(adressId));
+        if (logicLayer.checkNumberParam("adress", req)) {
+            FullUser user = logicLayer.findUserByAdress(req);
             writer.append(mapper.writeValueAsString(user));
-        } else if (req.getParameter("role") != null) {
-            int roleId = Integer.valueOf(req.getParameter("role"));
-            List<FullUser> users = repositoryUser.findUserByRole(DaoRole.getInstance().findById(roleId));
+        } else if (logicLayer.checkNumberParam("role", req)) {
+            List<FullUser> users = logicLayer.findUserByRole(req);
             writer.append(mapper.writeValueAsString(users));
-        } else if (req.getParameter("musicType") != null) {
-            int musicTypeId = Integer.valueOf(req.getParameter("musicType"));
-            List<FullUser> users = repositoryUser.findUserByMusicType(DaoMusicType.getInstance().findById(musicTypeId));
+        } else if (logicLayer.checkNumberParam("musicType", req)) {
+            List<FullUser> users = logicLayer.findUserByMusicType(req);
             writer.append(mapper.writeValueAsString(users));
         }
         writer.flush();

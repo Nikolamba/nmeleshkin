@@ -1,5 +1,6 @@
 package ru.job4j.music.servlets;
 
+import ru.job4j.music.LogicLayer;
 import ru.job4j.music.dao.DaoAdress;
 import ru.job4j.music.dao.DaoMusicType;
 import ru.job4j.music.dao.DaoRole;
@@ -17,17 +18,14 @@ import java.io.IOException;
  */
 public class MusicCourtServlet extends HttpServlet {
 
-    private final RepositoryUser repositoryUser = RepositoryUser.getInstance();
-    private final DaoAdress daoAdress = DaoAdress.getInstance();
-    private final DaoRole daoRole = DaoRole.getInstance();
-    private final DaoMusicType daoMusicType = DaoMusicType.getInstance();
+    private final LogicLayer logicLayer = LogicLayer.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", repositoryUser.findAllUsers());
-        req.setAttribute("adresses", daoAdress.findAll());
-        req.setAttribute("roles", daoRole.findAll());
-        req.setAttribute("musicTypes", daoMusicType.findAll());
+        req.setAttribute("users", logicLayer.findAllUsers());
+        req.setAttribute("adresses", logicLayer.findAllAdr());
+        req.setAttribute("roles", logicLayer.findAllRoles());
+        req.setAttribute("musicTypes", logicLayer.findAllMusicTypes());
         req.getRequestDispatcher("/WEB-INF/music_views/index.jsp").forward(req, resp);
     }
 }

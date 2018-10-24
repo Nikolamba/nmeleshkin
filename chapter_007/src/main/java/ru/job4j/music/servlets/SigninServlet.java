@@ -1,5 +1,6 @@
 package ru.job4j.music.servlets;
 
+import ru.job4j.music.LogicLayer;
 import ru.job4j.music.RepositoryUser;
 
 import javax.servlet.ServletException;
@@ -15,7 +16,7 @@ import java.io.IOException;
  */
 public class SigninServlet extends HttpServlet {
 
-    private final RepositoryUser repositoryUser = RepositoryUser.getInstance();
+    private final LogicLayer logicLayer = LogicLayer.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,11 +28,13 @@ public class SigninServlet extends HttpServlet {
         int idUser = Integer.valueOf(req.getParameter("id").trim());
         String nameUser = req.getParameter("name").trim();
 
-        if (repositoryUser.isCredentional(idUser, nameUser)) {
+        if (logicLayer.isCredentional(idUser, nameUser)) {
             HttpSession session = req.getSession();
             synchronized (session) {
                 session.setAttribute("id", idUser);
-                session.setAttribute("role", repositoryUser.getUser(idUser).getRole().getRole().trim());
+                if (logicLayer.getUser(req) != null) {
+                    session.setAttribute("role", logicLayer.getUser(req).getRole().getRole().trim());
+                }
             }
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } else {

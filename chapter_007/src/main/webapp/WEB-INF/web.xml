@@ -43,7 +43,7 @@
 
     <filter>
         <filter-name>SigninFilter</filter-name>
-        <filter-class>ru.job4j.music.SigninFilter</filter-class>
+        <filter-class>SigninFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>SigninFilter</filter-name>
@@ -51,7 +51,7 @@
     </filter-mapping>
     <filter>
         <filter-name>ActionFilter</filter-name>
-        <filter-class>ru.job4j.music.ActionFilter</filter-class>
+        <filter-class>ActionFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>ActionFilter</filter-name>
