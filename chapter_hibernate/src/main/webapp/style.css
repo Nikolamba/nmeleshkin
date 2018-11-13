@@ -1,0 +1,13 @@
+body {
+    background-color: gainsboro;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+#items_table {
+    background-color: whitesmoke;
+}
+
+#items_table th {
+    background-color: darkgray;
+}
