@@ -4,11 +4,14 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://localhost:5432/hibernate</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/cars</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">123456</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
 
-        <mapping resource="itemlist/Item.hbm.xml"/>
+        <mapping resource="carstore/Car.hbm.xml"/>
+        <mapping resource="carstore/Carbody.hbm.xml"/>
+        <mapping resource="carstore/Engine.hbm.xml"/>
+        <mapping resource="carstore/Transmission.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

@@ -28,6 +28,7 @@ public class DAOItem implements DAO<Item> {
         try (Session session = sessionFactory.openSession())  {
             transaction = session.beginTransaction();
             result = command.apply(session);
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -42,6 +43,7 @@ public class DAOItem implements DAO<Item> {
         try (Session session = sessionFactory.openSession())  {
             transaction = session.beginTransaction();
             command.accept(session);
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
