@@ -1,14 +1,33 @@
 package carstore;
 
+import javax.persistence.*;
+
 /**
  * @author Melehskin Nikolay (sol.of.f@mail.ru)
  * @version 0.1
  */
+
+@Entity
+@Table(name = "cars")
 public class Car {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "engine_id")
     private Engine engine;
+
+    @ManyToOne
+    @JoinColumn(name = "transmission_id")
     private Transmission transmission;
+
+    @ManyToOne
+    @JoinColumn(name = "carbody_id")
     private Carbody carbody;
 
     public Car() { }

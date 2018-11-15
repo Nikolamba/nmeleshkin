@@ -1,12 +1,24 @@
 package carstore;
 
+import javax.persistence.*;
+
 /**
  * @author Melehskin Nikolay (sol.of.f@mail.ru)
  * @version 0.1
  */
+
+@Entity
+@Table(name = "carbody")
 public class Carbody {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "color")
     private String color;
 
     public Carbody() { }

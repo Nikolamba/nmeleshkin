@@ -9,9 +9,9 @@
         <property name="connection.password">123456</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
 
-        <mapping resource="carstore/Car.hbm.xml"/>
-        <mapping resource="carstore/Carbody.hbm.xml"/>
-        <mapping resource="carstore/Engine.hbm.xml"/>
-        <mapping resource="carstore/Transmission.hbm.xml"/>
+        <mapping class="carstore.Car"/>
+        <mapping class="carstore.Carbody"/>
+        <mapping class="carstore.Engine"/>
+        <mapping class="carstore.Transmission"/>
     </session-factory>
 </hibernate-configuration>
