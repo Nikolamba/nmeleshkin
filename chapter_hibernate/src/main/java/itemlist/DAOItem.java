@@ -22,7 +22,7 @@ public class DAOItem implements DAO<Item> {
         sessionFactory = new Configuration().configure().buildSessionFactory();
     }
 
-    private <T> T wrapperMethodT(Function<Session, T> command) {
+    private <T> T wrapperMethod(Function<Session, T> command) {
         Transaction transaction = null;
         T result = null;
         try (Session session = sessionFactory.openSession())  {
@@ -38,7 +38,7 @@ public class DAOItem implements DAO<Item> {
         return result;
     }
 
-    private void wrapperMethodVoid(Consumer<Session> command) {
+    private void wrapperMethod(Consumer<Session> command) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession())  {
             transaction = session.beginTransaction();
@@ -54,30 +54,32 @@ public class DAOItem implements DAO<Item> {
 
     @Override
     public void create(Item obj) {
-        this.wrapperMethodVoid((session -> session.save(obj)));
+        this.wrapperMethod((Consumer<Session>) session -> session.save(obj));
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Item> findAll() {
-        List<Item> result = this.wrapperMethodT(session -> session.createQuery("from Item").list());
+        List<Item> result = wrapperMethod((Function<Session, List<Item>>) session -> session.createQuery("from Item").list());
         trimField(result);
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public List<Item> findNotDone() {
-        List<Item> result = this.wrapperMethodT(session -> session.createQuery("from Item where done = false").list());
+        List<Item> result = wrapperMethod((Function<Session, List<Item>>) session ->
+                session.createQuery("from Item where done = false").list());
         trimField(result);
         return result;
     }
 
     @Override
     public void update(Item obj) {
-        this.wrapperMethodVoid(session -> session.update(obj));
+        wrapperMethod((Consumer<Session>) session -> session.update(obj));
     }
-
     @Override
     public void delete(int id) {
-        this.wrapperMethodVoid(session -> {
+        wrapperMethod(session -> {
             Item item = new Item();
             item.setId(id);
             session.delete(item);

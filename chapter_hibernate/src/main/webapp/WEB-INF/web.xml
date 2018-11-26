@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
 
-<!DOCTYPE web-app
-        PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-        "http://java.sun.com/dtd/web-app_2_3.dtd">
-
-<web-app>
     <servlet>
         <servlet-name>ItemServlet</servlet-name>
         <servlet-class>itemlist.ItemServlet</servlet-class>
@@ -13,4 +13,68 @@
         <servlet-name>ItemServlet</servlet-name>
         <url-pattern>/items</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CarsServlet</servlet-name>
+        <servlet-class>carsales.servlets.CarSalesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CarsServlet</servlet-name>
+        <url-pattern>/cars</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddCarServlet</servlet-name>
+        <servlet-class>carsales.servlets.AddCarServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddCarServlet</servlet-name>
+        <url-pattern>/addcar.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SigninServlet</servlet-name>
+        <servlet-class>carsales.servlets.SigninServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SigninServlet</servlet-name>
+        <url-pattern>/signin.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AjaxServlet</servlet-name>
+        <servlet-class>carsales.servlets.AjaxServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxServlet</servlet-name>
+        <url-pattern>/getdata</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SignOutServlet</servlet-name>
+        <servlet-class>carsales.servlets.SignOutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SignOutServlet</servlet-name>
+        <url-pattern>/signout.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditCar</servlet-name>
+        <servlet-class>carsales.servlets.EditCarServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditCar</servlet-name>
+        <url-pattern>/editcar.do</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>carsales.servlets.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
 </web-app>

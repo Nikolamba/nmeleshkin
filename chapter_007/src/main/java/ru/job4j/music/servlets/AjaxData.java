@@ -2,10 +2,6 @@ package ru.job4j.music.servlets;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import ru.job4j.music.LogicLayer;
-import ru.job4j.music.dao.DaoAdress;
-import ru.job4j.music.dao.DaoMusicType;
-import ru.job4j.music.dao.DaoRole;
-import ru.job4j.music.RepositoryUser;
 import ru.job4j.music.models.FullUser;
 
 import javax.servlet.ServletException;

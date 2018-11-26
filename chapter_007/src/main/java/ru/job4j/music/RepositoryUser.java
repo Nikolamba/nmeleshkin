@@ -1,8 +1,13 @@
 package ru.job4j.music;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import ru.job4j.music.dao.*;
 import ru.job4j.music.models.*;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,25 +15,42 @@ import java.util.List;
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
  * @version 0.1
  */
-public class RepositoryUser {
+public class RepositoryUser implements Closeable {
 
     private final static RepositoryUser INSTANCE = new RepositoryUser();
+    private Connection connection = null;
 
-    private RepositoryUser() { }
+    private RepositoryUser() {
+        try {
+            connection = DBConnection.getInstance().getSource().getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static RepositoryUser getInstance() {
         return INSTANCE;
     }
 
     public FullUser create(User user, Adress adress, Role role, List<MusicType> musicTypeList) {
-
-        DaoAdress.getInstance().create(adress);
-        user.setIdAdress(adress.getId());
-        user.setIdRole(role.getId());
-        DaoUser.getInstance().create(user);
-        for (MusicType mt : musicTypeList) {
-            DaoUsersMusicType.getInstance().create(new UsersMusicType(user.getId(), mt.getId()));
+        try {
+            connection.setAutoCommit(false);
+            DaoAdress.getInstance().create(adress);
+            user.setIdAdress(adress.getId());
+            user.setIdRole(role.getId());
+            DaoUser.getInstance().create(user);
+            for (MusicType mt : musicTypeList) {
+                DaoUsersMusicType.getInstance().create(new UsersMusicType(user.getId(), mt.getId()));
+            }
+            connection.commit();
+        } catch (Exception e) {
+            try {
+                connection.rollback();
+            } catch (SQLException exc) {
+                exc.printStackTrace();
+            }
         }
+
         return new FullUser(user, adress, role, musicTypeList);
     }
 
@@ -99,4 +121,12 @@ public class RepositoryUser {
         return exist;
     }
 
+    @Override
+    public void close() throws IOException {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
