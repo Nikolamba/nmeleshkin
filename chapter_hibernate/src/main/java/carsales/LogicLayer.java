@@ -67,6 +67,23 @@ public class LogicLayer {
         return daoUser.findAll();
     }
 
+    public Brand findBrandById(int id) {
+        return daoBrand.findById(id);
+    }
+
+    public List<Car> findCarsByBrand(HttpServletRequest req) {
+        int brandId = Integer.valueOf(req.getParameter("brandId"));
+        return  (brandId == -1) ? daoCar.findAll() : daoCar.findByBrand(daoBrand.findById(brandId));
+    }
+
+    public List<Car> findCarsOnlyFoto() {
+        return daoCar.findOnlyFoto();
+    }
+
+    public List<Car> findCarsCurrentData() {
+        return daoCar.findCurrentDate();
+    }
+
     public void addUser(User obj) {
         daoUser.add(obj);
     }

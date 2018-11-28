@@ -39,17 +39,10 @@ public class DAOItem implements DAO<Item> {
     }
 
     private void wrapperMethod(Consumer<Session> command) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession())  {
-            transaction = session.beginTransaction();
+        wrapperMethod(session -> {
             command.accept(session);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+            return null;
+        });
     }
 
     @Override

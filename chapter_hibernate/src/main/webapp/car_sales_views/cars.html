@@ -23,6 +23,12 @@
     <button onclick="window.location = 'http://localhost:8080/hibernate/car_sales_views/registration.html'">Registration</button>
     <br><br>
 
+    Отфильтровать по названию бренда:<select id="brandFilter" name="brandFilter">
+        <option value="-1" selected>All</option>
+    </select><br>
+    With photo only: <input type="checkbox" id="onlyFoto"><br>
+    For the current date: <input type="checkbox" id="currentData">
+
     <table id="cars_table" class="table table-bordered">
     </table>
 </body>

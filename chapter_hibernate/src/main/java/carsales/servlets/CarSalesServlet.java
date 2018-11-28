@@ -20,6 +20,13 @@ public class CarSalesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Car> cars = logic.findAllCars();
+        if (req.getParameter("brandId") != null) {
+            cars = logic.findCarsByBrand(req);
+        } else if (req.getParameter("onlyFoto") != null) {
+            cars = logic.findCarsOnlyFoto();
+        } else if (req.getParameter("currentData") != null) {
+            cars = logic.findCarsCurrentData();
+        }
         if (cars != null) {
             ObjectMapper mapper = new ObjectMapper();
             PrintWriter printWriter = resp.getWriter();

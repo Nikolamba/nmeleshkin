@@ -1,6 +1,8 @@
 package carsales.models;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "car")
@@ -22,6 +24,9 @@ public class Car {
     @Column(name = "picture_path")
     private String picturePath;
 
+    @Column(name = "data")
+    private Date data;
+
     @ManyToOne
     @JoinColumn(name = "car_model")
     private Model model;
@@ -35,6 +40,7 @@ public class Car {
     private User seller;
 
     public Car() {
+        data = new Date();
     }
 
     public Car(int year, String color, Model model, BodyType bodyType, User seller) {
@@ -45,6 +51,7 @@ public class Car {
         this.seller = seller;
         this.status = false;
         this.picturePath = "";
+        data = new Date();
     }
 
     public int getId() {
@@ -79,6 +86,10 @@ public class Car {
         return seller;
     }
 
+    public Date getData() {
+        return data;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -109,5 +120,9 @@ public class Car {
 
     public void setSeller(User seller) {
         this.seller = seller;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
     }
 }

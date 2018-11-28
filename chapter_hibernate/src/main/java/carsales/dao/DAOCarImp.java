@@ -1,5 +1,6 @@
 package carsales.dao;
 
+import carsales.models.Brand;
 import carsales.models.Car;
 import carsales.models.User;
 import org.hibernate.Session;
@@ -53,7 +54,7 @@ public class DAOCarImp implements DAO<Car> {
     @SuppressWarnings("unchecked")
     public List<Car> findByUser(User user) {
         return wrapperMethod((Function<Session, List<Car>>) session ->
-                session.createQuery("from Car where seller = :user").setParameter("user", user).list());
+                session.createQuery("from carsales.models.Car where seller = :user").setParameter("user", user).list());
     }
 
     @SuppressWarnings("unchecked")
@@ -64,5 +65,25 @@ public class DAOCarImp implements DAO<Car> {
     @SuppressWarnings("unchecked")
     public List<Car> findNotSold() {
         return this.wrapperMethod((Function<Session, List<Car>>) session -> session.createQuery("from Car where status = false").list());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Car> findByBrand(Brand brand) {
+        return wrapperMethod((Function<Session, List<Car>>) session ->
+            session.createQuery("select c"
+                    + " from carsales.models.Car c join c.model as m join m.brand b where b = :brand")
+                    .setParameter("brand", brand)
+                    .list());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Car> findOnlyFoto() {
+        return wrapperMethod((Function<Session, List<Car>>) session -> session.createQuery("from Car where picturePath != ''").list());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Car> findCurrentDate() {
+        return wrapperMethod((Function<Session, List<Car>>) session -> session.createQuery("from Car where "
+                + "year(data) = year(current_date) AND month(data) = month(current_date) and day(data) = day(current_date)").list());
     }
 }

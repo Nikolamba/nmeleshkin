@@ -34,15 +34,9 @@ public interface DAO<T> {
     }
 
     default void wrapperMethod(Consumer<Session> command) {
-        Transaction transaction = null;
-        try (Session session = SESSION_FACTORY.openSession()) {
-            transaction = session.beginTransaction();
+        wrapperMethod(session -> {
             command.accept(session);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
+            return null;
+        });
     }
 }
