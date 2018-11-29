@@ -3,10 +3,12 @@ package carsales.dao;
 import carsales.models.Brand;
 import carsales.models.Car;
 import carsales.models.User;
+import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -58,20 +60,10 @@ public class DAOCarImp implements DAO<Car> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Car> findSold() {
-        return this.wrapperMethod((Function<Session, List<Car>>) session -> session.createQuery("from Car where status = true").list());
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Car> findNotSold() {
-        return this.wrapperMethod((Function<Session, List<Car>>) session -> session.createQuery("from Car where status = false").list());
-    }
-
-    @SuppressWarnings("unchecked")
     public List<Car> findByBrand(Brand brand) {
         return wrapperMethod((Function<Session, List<Car>>) session ->
             session.createQuery("select c"
-                    + " from carsales.models.Car c join c.model as m join m.brand b where b = :brand")
+                    + " from carsales.models.Car c where c.model.brand = :brand")//join c.model as m join m.brand b where b = :brand")
                     .setParameter("brand", brand)
                     .list());
     }
@@ -83,7 +75,22 @@ public class DAOCarImp implements DAO<Car> {
 
     @SuppressWarnings("unchecked")
     public List<Car> findCurrentDate() {
-        return wrapperMethod((Function<Session, List<Car>>) session -> session.createQuery("from Car where "
+        return wrapperMethod((Function<Session, List<Car>>) session -> session.createQuery("from carsales.models.Car where "
                 + "year(data) = year(current_date) AND month(data) = month(current_date) and day(data) = day(current_date)").list());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Car> enableFilters(Map<String, Integer> map) {
+        return wrapperMethod((Function<Session, List<Car>>) session -> {
+            for (String filter : map.keySet()) {
+                if (filter.equals("brandFilter")) {
+                    Filter fil = session.enableFilter(filter);
+                    fil.setParameter("brand_id", map.get(filter));
+                } else {
+                    session.enableFilter(filter);
+                }
+            }
+            return session.createQuery("from Car").list();
+        });
     }
 }

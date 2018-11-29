@@ -53,31 +53,20 @@ function getAllCars() {
     });
 }
 
-function getOnlyFotoCars() {
+function filterRequest() {
+    var brandId = $('#brandFilter').val();
+    var onlyFoto = $('#onlyFoto').prop('checked') ? 1 : 0;
+    var currentData = $('#currentData').prop('checked') ? 1 : 0;
+    $('#cars_table').empty();
     $.ajax({
         type: 'get',
         url: 'http://localhost:8080/hibernate/cars',
-        data: 'onlyFoto=' + true,
+        data: 'brandId=' + brandId + '&onlyFoto=' + onlyFoto + '&currentData=' + currentData,
         dataType: 'json',
         error: [function(xhr, status, error) {
             alert(xhr.responseText + '|\n' + status + '|\n' + error);
         }],
-        success: [function (response) {
-            fillTable(response);
-        }]
-    });
-}
-
-function getCurrentDataCars() {
-    $.ajax({
-        type: 'get',
-        url: 'http://localhost:8080/hibernate/cars',
-        data: 'currentData=' + true,
-        dataType: 'json',
-        error: [function(xhr, status, error) {
-            alert(xhr.responseText + '|\n' + status + '|\n' + error);
-        }],
-        success: [function (response) {
+        success:  [function (response) {
             fillTable(response);
         }]
     });
@@ -86,40 +75,15 @@ function getCurrentDataCars() {
 $(document).ready(function () {
     //применяет фильтр "за текущую дату"
     $('#currentData').change(function () {
-        $('#cars_table').empty();
-        if ($('#currentData').prop('checked')) {
-            $('#onlyFoto').prop('checked', false);
-            getCurrentDataCars();
-        } else {
-            getAllCars();
-        }
+        filterRequest();
     });
     //применяет фильтр "только с фотографией"
     $('#onlyFoto').change(function () {
-        $('#cars_table').empty();
-        if ($('#onlyFoto').prop('checked')) {
-            $('#currentData').prop('checked', false);
-            getOnlyFotoCars();
-        } else {
-            getAllCars();
-        }
+        filterRequest();
     });
     //применяет фильтр по марке авто
     $('#brandFilter').change(function () {
-        var brandId = $('#brandFilter').val();
-        $('#cars_table').empty();
-        $.ajax({
-            type: 'get',
-            url: 'http://localhost:8080/hibernate/cars',
-            data: 'brandId=' + brandId,
-            dataType: 'json',
-            error: [function(xhr, status, error) {
-                alert(xhr.responseText + '|\n' + status + '|\n' + error);
-            }],
-            success:  [function (response) {
-                fillTable(response);
-            }]
-        });
+        filterRequest();
     });
 
     //заполняет таблицу объявлений при загрузке страницы

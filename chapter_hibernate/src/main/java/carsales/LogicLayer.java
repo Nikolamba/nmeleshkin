@@ -71,17 +71,8 @@ public class LogicLayer {
         return daoBrand.findById(id);
     }
 
-    public List<Car> findCarsByBrand(HttpServletRequest req) {
-        int brandId = Integer.valueOf(req.getParameter("brandId"));
-        return  (brandId == -1) ? daoCar.findAll() : daoCar.findByBrand(daoBrand.findById(brandId));
-    }
-
-    public List<Car> findCarsOnlyFoto() {
-        return daoCar.findOnlyFoto();
-    }
-
-    public List<Car> findCarsCurrentData() {
-        return daoCar.findCurrentDate();
+    public List<Car> useFilters(Map<String, Integer> filters) {
+        return daoCar.enableFilters(filters);
     }
 
     public void addUser(User obj) {

@@ -68,6 +68,15 @@
         <url-pattern>/editcar.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>BrandFilter</servlet-name>
+        <servlet-class>carsales.servlets.BrandFilter</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BrandFilter</servlet-name>
+        <url-pattern>/brandFilter</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>carsales.servlets.AuthFilter</filter-class>
