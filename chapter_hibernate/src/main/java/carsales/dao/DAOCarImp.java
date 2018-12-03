@@ -60,26 +60,6 @@ public class DAOCarImp implements DAO<Car> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Car> findByBrand(Brand brand) {
-        return wrapperMethod((Function<Session, List<Car>>) session ->
-            session.createQuery("select c"
-                    + " from carsales.models.Car c where c.model.brand = :brand")//join c.model as m join m.brand b where b = :brand")
-                    .setParameter("brand", brand)
-                    .list());
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Car> findOnlyFoto() {
-        return wrapperMethod((Function<Session, List<Car>>) session -> session.createQuery("from Car where picturePath != ''").list());
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Car> findCurrentDate() {
-        return wrapperMethod((Function<Session, List<Car>>) session -> session.createQuery("from carsales.models.Car where "
-                + "year(data) = year(current_date) AND month(data) = month(current_date) and day(data) = day(current_date)").list());
-    }
-
-    @SuppressWarnings("unchecked")
     public List<Car> enableFilters(Map<String, Integer> map) {
         return wrapperMethod((Function<Session, List<Car>>) session -> {
             for (String filter : map.keySet()) {

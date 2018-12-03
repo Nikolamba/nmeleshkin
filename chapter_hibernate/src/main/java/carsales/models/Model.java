@@ -1,6 +1,7 @@
 package carsales.models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "model")
@@ -47,5 +48,24 @@ public class Model {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Model model = (Model) o;
+        return id == model.id
+                && Objects.equals(name, model.name)
+                && Objects.equals(brand, model.brand);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, brand);
     }
 }

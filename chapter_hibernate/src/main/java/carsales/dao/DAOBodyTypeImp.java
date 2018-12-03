@@ -15,7 +15,7 @@ public class DAOBodyTypeImp implements DAO<BodyType> {
 
     private DAOBodyTypeImp() {
         for (String str : BODYTYPE_LIST) {
-            if (this.findByName(str)) {
+            if (!this.findByName(str)) {
                 BodyType bodyType = new BodyType();
                 bodyType.setName(str);
                 this.add(bodyType);
@@ -63,7 +63,7 @@ public class DAOBodyTypeImp implements DAO<BodyType> {
         return wrapperMethod(session -> {
             Query<BodyType> query = session.createQuery("from BodyType where name = :name");
             query.setParameter("name", name);
-            return query.getResultList().isEmpty();
+            return !query.getResultList().isEmpty();
         });
     }
 }

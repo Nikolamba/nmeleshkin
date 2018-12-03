@@ -2,6 +2,7 @@ package carsales.models;
 
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -47,5 +48,24 @@ public class User {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return id == user.id
+                && Objects.equals(name, user.name)
+                && Objects.equals(pass, user.pass);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, pass);
     }
 }

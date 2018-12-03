@@ -15,7 +15,7 @@ public class DAOBrandImp implements DAO<Brand> {
 
     private DAOBrandImp() {
         for (String str : BRANDS_LIST) {
-            if (this.findByName(str)) {
+            if (!findByName(str)) {
                 Brand brand = new Brand();
                 brand.setName(str);
                 this.add(brand);
@@ -57,7 +57,7 @@ public class DAOBrandImp implements DAO<Brand> {
         return wrapperMethod(session -> {
             Query<Brand> query = session.createQuery("from Brand where name = :name");
             query.setParameter("name", name);
-            return query.getResultList().isEmpty();
+            return !query.getResultList().isEmpty();
         });
     }
 

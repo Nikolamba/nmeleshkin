@@ -24,6 +24,7 @@
         <module>chapter_lambda</module>
         <module>lambda</module>
         <module>chapter_hibernate</module>
+        <module>chapter_spring</module>
     </modules>
 
 	<dependencies>

@@ -7,6 +7,7 @@ import org.hibernate.annotations.ParamDef;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "car")
@@ -151,5 +152,29 @@ public class Car {
     public String toString() {
         return String.format("[Car id: %s, Car_model: %s, Body_type: %s, Seller: %s]",
                 id, model.getName(), bodyType.getName(), seller.getName());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Car car = (Car) o;
+        return id == car.id
+                && year == car.year
+                && status == car.status
+                && Objects.equals(color, car.color)
+                && Objects.equals(data, car.data)
+                && Objects.equals(model, car.model)
+                && Objects.equals(bodyType, car.bodyType)
+                && Objects.equals(seller, car.seller);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, year, status, color, data, model, bodyType, seller);
     }
 }

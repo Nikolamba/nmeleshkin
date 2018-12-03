@@ -1,6 +1,7 @@
 package carsales.models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "body_type")
@@ -34,5 +35,23 @@ public class BodyType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        BodyType bodyType = (BodyType) o;
+        return id == bodyType.id
+                && Objects.equals(name, bodyType.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
