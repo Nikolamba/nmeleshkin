@@ -17,6 +17,10 @@ public class StubInput implements Input {
         return this.value[this.position++];
     }
 
+    public void resetPosition() {
+        this.position = 0;
+    }
+
     @Override
     public int ask(String question, int[] range) {
         int key = Integer.valueOf(this.ask(question));

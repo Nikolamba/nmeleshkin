@@ -23,7 +23,7 @@ public class DAOBodyTypeImpTest {
         List<BodyType> types = daoBodyType.wrapperMethod((Function<Session, List<BodyType>>) session -> session.createQuery("from BodyType").list());
         assertEquals(1, types.size());
         assertTrue(types.contains(type1));
-        daoBodyType.wrapperMethod((Consumer<Session>) session -> session.createQuery("delete from BodyType ").executeUpdate());
+        //daoBodyType.wrapperMethod((Consumer<Session>) session -> session.createQuery("delete from BodyType ").executeUpdate());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class DAOBodyTypeImpTest {
         daoBodyType.edit(type1);
         BodyType _bodyType = daoBodyType.wrapperMethod((Function<Session, BodyType>) session -> session.get(BodyType.class, type1.getId()));
         assertEquals(type1, _bodyType);
-        daoBodyType.wrapperMethod((Consumer<Session>) session -> session.createQuery("delete from BodyType ").executeUpdate());
+        //daoBodyType.wrapperMethod((Consumer<Session>) session -> session.createQuery("delete from BodyType ").executeUpdate());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class DAOBodyTypeImpTest {
         daoBodyType.add(type1);
         daoBodyType.add(type2);
         assertEquals(type2, daoBodyType.findById(type2.getId()));
-        daoBodyType.wrapperMethod((Consumer<Session>) session -> session.createQuery("delete from BodyType ").executeUpdate());
+        //daoBodyType.wrapperMethod((Consumer<Session>) session -> session.createQuery("delete from BodyType ").executeUpdate());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class DAOBodyTypeImpTest {
         daoBodyType.add(type2);
         assertTrue(daoBodyType.findByName("type_2"));
         assertFalse(daoBodyType.findByName("type_3"));
-        daoBodyType.wrapperMethod((Consumer<Session>) session -> session.createQuery("delete from BodyType ").executeUpdate());
+        //daoBodyType.wrapperMethod((Consumer<Session>) session -> session.createQuery("delete from BodyType ").executeUpdate());
     }
 
     @Test

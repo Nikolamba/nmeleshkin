@@ -1,4 +1,4 @@
-package xmlconfiguration;
+package userstorage;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;

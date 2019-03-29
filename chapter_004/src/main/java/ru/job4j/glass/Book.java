@@ -8,15 +8,15 @@ import java.util.*;
  * Класс содержит заявки конкретного эмитента. При добавлении заявок
  * выполняется (по возможности) слияние заявок.
  */
-public class Glass {
+public class Book {
 
     private String name;
-    private Set<Request> askRequests;
-    private Set<Request> bidRequests;
+    private Set<Order> askOrders;
+    private Set<Order> bidOrders;
 
-    Glass(String name) {
+    Book(String name) {
         this.name = name;
-        this.askRequests = new TreeSet<>((o1, o2) -> {
+        this.askOrders = new TreeSet<>((o1, o2) -> {
             int result = -(Double.compare(o1.getPrice(), o2.getPrice()));
             if (result == 0) {
                 result = Integer.compare(o1.getId(), o2.getId());
@@ -24,7 +24,7 @@ public class Glass {
             return result;
         });
 
-        this.bidRequests = new TreeSet<>(((o1, o2) -> {
+        this.bidOrders = new TreeSet<>(((o1, o2) -> {
             int result = Double.compare(o1.getPrice(), o2.getPrice());
             if (result == 0) {
                 result = Integer.compare(o1.getId(), o2.getId());
@@ -33,63 +33,63 @@ public class Glass {
         }));
     }
 
-    public void add(Request request) {
-        if (request.getType().equals("DeleteOrder")) {
-            this.deleteOrder(request.getId());
+    public void add(Order order) {
+        if (order.getType().equals("DeleteOrder")) {
+            this.deleteOrder(order.getId());
         } else {
-            if (request.getAction().equals("BUY")) {
-                merge(request, true);
+            if (order.getAction().equals("BUY")) {
+                merge(order, true);
             } else {
-                merge(request, false);
+                merge(order, false);
             }
         }
     }
 
     private void deleteOrder(int id) {
 
-        for (Request request : this.askRequests) {
-            if (request.getId() == id) {
-                this.askRequests.remove(request);
+        for (Order order : this.askOrders) {
+            if (order.getId() == id) {
+                this.askOrders.remove(order);
                 return;
             }
         }
-        for (Request request : this.bidRequests) {
-            if (request.getId() == id) {
-                this.bidRequests.remove(request);
+        for (Order order : this.bidOrders) {
+            if (order.getId() == id) {
+                this.bidOrders.remove(order);
                 return;
             }
         }
     }
 
-    private void merge(Request request, boolean isBuy) {
-        List<Request> removeIndex = new ArrayList<>();
+    private void merge(Order order, boolean isBuy) {
+        List<Order> removeIndex = new ArrayList<>();
 
-        Set<Request> requests = isBuy ? this.bidRequests : this.askRequests;
-        for (Request req : requests) {
-            boolean condition = isBuy ? req.getPrice() <= request.getPrice() : req.getPrice() >= request.getPrice();
+        Set<Order> orders = isBuy ? this.bidOrders : this.askOrders;
+        for (Order ord : orders) {
+            boolean condition = isBuy ? ord.getPrice() <= order.getPrice() : ord.getPrice() >= order.getPrice();
             if (condition) {
-                if (req.getVolume() > request.getVolume()) {
-                    req.setVolume(req.getVolume() - request.getVolume());
-                    request.setVolume(0);
+                if (ord.getVolume() > order.getVolume()) {
+                    ord.setVolume(ord.getVolume() - order.getVolume());
+                    order.setVolume(0);
                     break;
-                } else if (req.getVolume() < request.getVolume()) {
-                    request.setVolume(request.getVolume() - req.getVolume());
-                    removeIndex.add(req);
+                } else if (ord.getVolume() < order.getVolume()) {
+                    order.setVolume(order.getVolume() - ord.getVolume());
+                    removeIndex.add(ord);
                 } else {
-                    requests.remove(req);
-                    request.setVolume(0);
+                    orders.remove(ord);
+                    order.setVolume(0);
                     break;
                 }
             }
         }
-        for (Request req : removeIndex) {
-            requests.remove(req);
+        for (Order req : removeIndex) {
+            orders.remove(req);
         }
-        if (request.getVolume() != 0) {
+        if (order.getVolume() != 0) {
             if (isBuy) {
-                this.askRequests.add(request);
+                this.askOrders.add(order);
             } else {
-                this.bidRequests.add(request);
+                this.bidOrders.add(order);
             }
         }
     }
@@ -99,8 +99,8 @@ public class Glass {
         Map<Double, Integer> glassOfAsk = new TreeMap<>();
         StringBuilder string = new StringBuilder();
 
-        fillGlass(glassOfBid, this.bidRequests);
-        fillGlass(glassOfAsk, this.askRequests);
+        fillBook(glassOfBid, this.bidOrders);
+        fillBook(glassOfAsk, this.askOrders);
 
         string.append("Стакан котировок для " + this.name);
         string.append(System.lineSeparator());
@@ -125,11 +125,11 @@ public class Glass {
     }
 
     //Суммирует объемы заявок, у которых одинаковая цена
-    private void fillGlass(Map<Double, Integer> glass, Set<Request> requests) {
-        for (Request request : requests) {
-            double price = request.getPrice();
-            if (glass.putIfAbsent(price, request.getVolume()) != null) {
-                int newVolume = glass.get(price) + request.getVolume();
+    private void fillBook(Map<Double, Integer> glass, Set<Order> orders) {
+        for (Order order : orders) {
+            double price = order.getPrice();
+            if (glass.putIfAbsent(price, order.getVolume()) != null) {
+                int newVolume = glass.get(price) + order.getVolume();
                 glass.replace(price, newVolume);
             }
         }

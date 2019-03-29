@@ -6,7 +6,7 @@ import java.util.Objects;
  * @author Nikolay Meleshkin (sol.of.f@mail.ru)
  * @version 0.1
  */
-public class Request {
+public class Order {
     private final int id; //уникальный идентификатор заявки
     private String book; //эмитент ценной бумаги
     private String type; //add/delete
@@ -14,7 +14,7 @@ public class Request {
     private double price; //цена
     private int volume; //объем
 
-    Request(int id) {
+    Order(int id) {
         this.id = id;
     }
 
@@ -70,7 +70,7 @@ public class Request {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Request request = (Request) o;
+        Order request = (Order) o;
         return id == request.id;
     }
 

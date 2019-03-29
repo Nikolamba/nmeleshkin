@@ -1,5 +1,6 @@
 package ru.job4j.convert;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,11 +17,7 @@ public class ConvertList {
      */
     public List<Integer> toList(int[][] array) {
         List<Integer> result = new LinkedList<>();
-        for (int[] subArray : array) {
-            for (int i : subArray) {
-                result.add(i);
-            }
-        }
+        Arrays.stream(array).forEach(arr -> Arrays.stream(arr).forEach(result::add));
         return result;
     }
 
@@ -51,11 +48,7 @@ public class ConvertList {
      */
     public List<Integer> convert(List<int[]> list) {
         List<Integer> result = new LinkedList<>();
-        for (int[] element : list) {
-            for (int i : element) {
-                result.add(i);
-            }
-        }
+        list.forEach(arr -> Arrays.stream(arr).forEach(result::add));
         return result;
     }
 }

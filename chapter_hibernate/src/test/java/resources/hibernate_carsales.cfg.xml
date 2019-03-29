@@ -7,6 +7,7 @@
         <property name="connection.url">jdbc:hsqldb:mem:testdb</property>
         <property name="connection.username">sa</property>
         <property name="connection.password"/>
+        <property name="connection.autocommit">false</property>
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">2</property>
@@ -19,6 +20,8 @@
 
          <!--Drop and re-create the database schema on startup-->
         <property name="hbm2ddl.auto">create</property>
+
+
 
         <mapping class="carsales.models.User"/>
         <mapping class="carsales.models.BodyType"/>

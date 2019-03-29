@@ -39,4 +39,8 @@ public interface DAO<T> {
             return null;
         });
     }
+
+    default SessionFactory getSessionFactory() {
+        return SESSION_FACTORY;
+    }
 }
