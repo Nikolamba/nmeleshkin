@@ -7,9 +7,9 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <bean id="memory" class="xmlconfiguration.MemoryStorage"/>
+    <bean id="memory" class="userstorage.MemoryStorage"/>
 
-    <bean id="storage" class="xmlconfiguration.UserStorage">
+    <bean id="storage" class="userstorage.UserStorage">
         <constructor-arg name="storage" ref="memory"/>
     </bean>
 </beans>

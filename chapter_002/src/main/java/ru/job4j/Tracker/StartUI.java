@@ -7,7 +7,7 @@ package ru.job4j.tracker;
  */
 public class StartUI {
     //Получение данных от пользователя
-    private final Input input;
+    private final StubInput input;
     //Хранилище заявок
     private final Tracker tracker;
 
@@ -16,7 +16,7 @@ public class StartUI {
      * @param input пользовательский ввод
      * @param tracker хранилище заявок
      */
-    StartUI(Input input, Tracker tracker) {
+    StartUI(StubInput input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -30,11 +30,22 @@ public class StartUI {
         int[] range = new int[rangeValue];
         fillRange(range);
         int key;
+        int stop = 2000;
         do {
             menu.showMenu();
             key = input.ask("Выбор: ", range);
+            if (key == 6) {
+                input.resetPosition();
+                key = input.ask("Выбор: ", range);
+            }
             menu.startAction(key);
-        } while (key != 6);
+            stop--;
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while (stop != 0);
     }
 
     /**
@@ -56,8 +67,15 @@ public class StartUI {
         String userName = "postgres";
         String userPass = "123456";
 
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String[] ask = {"0", "task", "task_desc", "6"};
         try (Tracker tracker = new Tracker(databaseURL, userName, userPass)) {
-            new StartUI(new ValidateInput(new ConsoleInput()), tracker).init();
+            new StartUI(new StubInput(ask), tracker).init();
+            //new StartUI(new ValidateInput(new ConsoleInput()), tracker).init();
         } catch (Exception e) {
             e.printStackTrace();
         }

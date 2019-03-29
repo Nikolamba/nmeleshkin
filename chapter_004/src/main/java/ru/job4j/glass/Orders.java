@@ -19,17 +19,17 @@ import java.util.*;
  * для каждого эмитента
  */
 public class Orders {
-    private Map<String, Glass> glasses = new HashMap<>();
+    private Map<String, Book> books = new HashMap<>();
 
-    public Glass getGlass(String book) {
-        return glasses.get(book);
+    public Book getGlass(String book) {
+        return books.get(book);
     }
 
-    private void addRequest(Request request) {
-        if (!glasses.containsKey(request.getBook())) {
-            glasses.put(request.getBook(), new Glass(request.getBook()));
+    private void addOrder(Order order) {
+        if (!books.containsKey(order.getBook())) {
+            books.put(order.getBook(), new Book(order.getBook()));
         }
-        glasses.get(request.getBook()).add(request);
+        books.get(order.getBook()).add(order);
     }
 
     public void parseFile(String fileName) {
@@ -53,18 +53,18 @@ public class Orders {
         public void startElement(String uri, String localName, String qName,
                                  Attributes attributes) throws SAXException {
             if (qName.equals("AddOrder")) {
-                Request request = new Request(Integer.valueOf(attributes.getValue(4)));
-                request.setType(qName);
-                request.setBook(attributes.getValue(0));
-                request.setAction(attributes.getValue(1));
-                request.setPrice(Double.valueOf(attributes.getValue(2)));
-                request.setVolume(Integer.valueOf(attributes.getValue(3)));
-                addRequest(request);
+                Order order = new Order(Integer.valueOf(attributes.getValue(4)));
+                order.setType(qName);
+                order.setBook(attributes.getValue(0));
+                order.setAction(attributes.getValue(1));
+                order.setPrice(Double.valueOf(attributes.getValue(2)));
+                order.setVolume(Integer.valueOf(attributes.getValue(3)));
+                addOrder(order);
             } else if (qName.equals("DeleteOrder")) {
-                Request request = new Request(Integer.valueOf(attributes.getValue(1)));
-                request.setType(qName);
-                request.setBook(attributes.getValue(0));
-                addRequest(request);
+                Order order = new Order(Integer.valueOf(attributes.getValue(1)));
+                order.setType(qName);
+                order.setBook(attributes.getValue(0));
+                addOrder(order);
             }
             super.startElement(uri, localName, qName, attributes);
         }

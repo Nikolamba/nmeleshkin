@@ -8,9 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>$Title$</title>
+    <title>Upload file on server</title>
 </head>
 <body>
-$END$
+<form action = "${pageContext.servletContext.contextPath}/upload" method="post" enctype="multipart/form-data">
+    <input type="text" name="description" />
+    <input type="file" name="file" />
+    <input type="submit" />
 </body>
 </html>

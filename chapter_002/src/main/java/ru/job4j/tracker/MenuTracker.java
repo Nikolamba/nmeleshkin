@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +32,7 @@ class DeleteItem extends BaseAction {
 public class MenuTracker {
     private Input input;
     private Tracker tracker;
+    private List<Item> items = new ArrayList<>();
     //хранилище пользовательских действий
     private UserAction[] actions = new UserAction[10];
 
@@ -88,7 +90,8 @@ public class MenuTracker {
             String name = input.ask("Введите имя заявки: ");
             String desc = input.ask("Введите описание заявки: ");
             Item item = new Item(name, desc);
-            tracker.add(item);
+            items.add(item);
+            //tracker.add(item);
             System.out.println("--------------------Добавлена заявка ID " + item.getId() + "----------------------");
         }
     }

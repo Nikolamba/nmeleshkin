@@ -9,7 +9,13 @@ public class Item {
     private String name;
     private String description;
     private long created;
-    private String[] comments;
+    private String[] comments = {"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                                "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                                "ccccccccccccccccccccccccccccccccccc",
+                                "ddddddddddddddddddddddddddddddddddd",
+                                "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+                                "fffffffffffffffffffffffffffffffffff",
+                                "ggggggggggggggggggggggggggggggggggg"};
 
     Item(String id, String name, String desc, long created) {
         this.id = id;
